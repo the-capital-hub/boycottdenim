@@ -30,7 +30,7 @@ const HeroSection = () => {
 
               <div className="space-y-1 text-[40px]">
                 <p className="text-black font-medium">
-                  We don’t follow fashion.
+                  We don&apos;t follow fashion.
                 </p>
                 <p className="text-black font-medium">We follow purpose.</p>
               </div>
@@ -45,7 +45,7 @@ const HeroSection = () => {
                 </p>
                 <p>
                   We built Boy Cott for people who know who they are. People
-                  who don’t need loud logos or fancy hype to stand out. People
+                  who don&apos;t need loud logos or fancy hype to stand out. People
                   who believe in quality over quantity, style over noise, and
                   real over fake.
                 </p>
@@ -141,7 +141,7 @@ const HeroSection = () => {
 
             <div className="space-y-1 text-[20px]">
               <p className="text-black font-medium">
-                We don’t follow fashion.
+                We don&apos;t follow fashion.
               </p>
               <p className="text-black font-medium">We follow purpose.</p>
             </div>
@@ -166,7 +166,7 @@ const HeroSection = () => {
               </p>
               <p>
                 We built Boy Cott for people who know who they are. People who
-                don’t need loud logos or fancy hype to stand out. People who
+                don&apos;t need loud logos or fancy hype to stand out. People who
                 believe in quality over quantity, style over noise, and real
                 over fake.
               </p>
