@@ -80,7 +80,7 @@ const WhyOnlyJeans = () => {
             variants={staggerContainer}
           >
             <motion.p variants={slideInLeft}>
-              Jeans are timeless. They're tough. They evolve with you. From
+              Jeans are timeless. They&apos;re tough. They evolve with you. From
               vintage raw edge to clean modern cuts,
             </motion.p>
             <motion.p variants={slideInRight}>
@@ -88,7 +88,7 @@ const WhyOnlyJeans = () => {
               thread.
             </motion.p>
             <motion.p variants={slideInLeft}>
-              We didn't want to be another generic fashion brand.
+              We didn&apos;t want to be another generic fashion brand.
             </motion.p>
             <motion.p variants={slideInRight}>
               So we said no to the clutter, and yes to the core.
@@ -125,7 +125,7 @@ const WhyOnlyJeans = () => {
             variants={staggerContainer}
           >
             <motion.p variants={slideInLeft}>
-              We're here to start a denim culture where fit meets fire.
+              We&apos;re here to start a denim culture where fit meets fire.
             </motion.p>
             <motion.p variants={slideInRight}>
               Where your jeans become your second skin.

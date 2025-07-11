@@ -34,13 +34,13 @@ const ViewSection = () => {
       <div className="flex items-center justify-between p-4 text-black">
         <h1 className="text-lg font-medium">Light Grey Ankle Jeans</h1>
         <div className="flex items-center gap-4">
-          <div className="flex items-center  text-white px-3 py-1 rounded-full text-sm">
+          {/* <div className="flex items-center  text-white px-3 py-1 rounded-full text-sm">
           <FilterDropdown isOpen={isFilterOpen} setIsOpen={setIsFilterOpen} />
-          </div>
-          <button className="flex items-center gap-2 text-sm font-medium text-gray-600 cursor-pointer hover:text-black transition-colors">
+          </div> */}
+          {/* <button className="flex items-center gap-2 text-sm font-medium text-gray-600 cursor-pointer hover:text-black transition-colors">
                 <ArrowUpDown size={16} />
                 SORT BY
-              </button>
+              </button> */}
 
       
               <div className="flex items-center gap-2">

@@ -9,7 +9,6 @@ import img4 from "../../../public/shop4.png"
 import img5 from "../../../public/shop4.png"
 import img6 from "../../../public/shop3.png"
 import { PT_Mono } from 'next/font/google'
-import { ArrowRight } from 'lucide-react'
 
 const ptMono = PT_Mono({
     weight: ["400"],

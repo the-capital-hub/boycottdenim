@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowUpRight, ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import { PT_Mono } from "next/font/google";
 import bg from "../../../public/Hero-img.png";
@@ -19,7 +19,7 @@ const HeroSection = () => {
   const fits = ["SLIM FIT", "ANKIL FIT", "RELAXED FIT", "STRAIGHT FIT"];
 
   return (
-    <div className="w-full min-h-screen relative overflow-hidden">
+    <div className="w-full min-h-screen relative overflow-hidden bg-black">
       {/* Background Image */}
       <div className="absolute inset-0">
         <Image
@@ -276,7 +276,7 @@ const HeroSection = () => {
       </div>
 
 {/*Mobile view*/}
-      <div className="block sm:hidden relative z-10 px-6 py-16">
+      <div className="block sm:hidden relative z-10 px-6 py-16 min-h-screen bg-transparent">
         <h1 className={`text-4xl font-bold text-white ${ptMono.className}`}>
           CONFIDENCE-IN <br /> EVERY STITCH.
         </h1>

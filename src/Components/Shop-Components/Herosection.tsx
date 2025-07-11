@@ -1,6 +1,6 @@
 "use client"
 import React, { useState } from 'react';
-import { Filter, ArrowUpDown, Grid, List } from 'lucide-react';
+import { ArrowUpDown, Grid, List } from 'lucide-react';
 import Image from 'next/image';
 import img1 from "../../../public/shop1.png"
 import img2 from "../../../public/shop2.png"

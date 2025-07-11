@@ -122,13 +122,13 @@ const ExclusiveSection = () => {
               </div>
               
               {/* Overlay Content */}
-              <div className="absolute bottom-4 left-[60.5%] lg:[57.5%] right-0 w-44">
+              <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 sm:left-[60.5%] sm:translate-x-0 lg:left-[57.5%] right-0 w-32 sm:w-44">
                 <motion.div
-                  className="bg-black bg-opacity-90 backdrop-blur-sm rounded-l-lg px-4 py-3 text-left"
+                  className="bg-black bg-opacity-90 backdrop-blur-sm rounded-l-lg px-2 py-2 sm:px-4 sm:py-3 text-center"
                   whileHover={{ backgroundColor: "rgba(0, 0, 0, 0.95)" }}
                   transition={{ duration: 0.2 }}
                 >
-                  <span className="text-white font-bold text-lg tracking-wide">
+                  <span className="text-white font-bold text-base sm:text-lg tracking-wide whitespace-nowrap overflow-hidden text-ellipsis block">
                     BUY 1 GET 1
                   </span>
                 </motion.div>
@@ -154,13 +154,13 @@ const ExclusiveSection = () => {
               </div>
               
               {/* Overlay Content */}
-              <div className="absolute bottom-4 left-[61%] lg:[57%] right-0 w-44">
+              <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 sm:left-[61%] sm:translate-x-0 lg:left-[57%] right-0 w-44 sm:w-52 min-w-fit">
                 <motion.div
-                  className="bg-black bg-opacity-90 backdrop-blur-sm rounded-l-lg px-4 py-3 text-center"
+                  className="bg-black bg-opacity-90 backdrop-blur-sm rounded-l-lg px-2 py-2 sm:px-4 sm:py-3 text-center"
                   whileHover={{ backgroundColor: "rgba(0, 0, 0, 0.95)" }}
                   transition={{ duration: 0.2 }}
                 >
-                  <span className="text-white font-bold text-lg tracking-wide">
+                  <span className="text-white font-bold text-base sm:text-lg tracking-wide block break-words">
                     UPTO 80% OFF
                   </span>
                 </motion.div>
@@ -187,13 +187,13 @@ const ExclusiveSection = () => {
               </div>
               
               {/* Overlay Content */}
-              <div className="absolute bottom-4 lg:left-[57.5%] left-[61%] right-0 w-44">
+              <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 sm:left-[61%] sm:translate-x-0 lg:left-[57.5%] right-0 w-32 sm:w-44">
                 <motion.div
-                  className="bg-black bg-opacity-90 backdrop-blur-sm rounded-l-lg px-4 py-3 text-center"
+                  className="bg-black bg-opacity-90 backdrop-blur-sm rounded-l-lg px-2 py-2 sm:px-4 sm:py-3 text-center"
                   whileHover={{ backgroundColor: "rgba(0, 0, 0, 0.95)" }}
                   transition={{ duration: 0.2 }}
                 >
-                  <span className="text-white font-bold text-lg tracking-wide">
+                  <span className="text-white font-bold text-base sm:text-lg tracking-wide whitespace-nowrap overflow-hidden text-ellipsis block">
                     BUY 1 GET 1
                   </span>
                 </motion.div>

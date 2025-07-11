@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import { PT_Mono } from "next/font/google";
 import "./globals.css";
 

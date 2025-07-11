@@ -99,7 +99,7 @@ export default function ContactForm() {
                   >
                     <Phone className="w-5 h-5 text-yellow-400" />
                     <span className="text-sm sm:text-base">
-                      +1012 3456 789
+                      +919900330411
                     </span>
                   </motion.div>
 
@@ -112,7 +112,7 @@ export default function ContactForm() {
                   >
                     <Mail className="w-5 h-5 text-yellow-400" />
                     <span className="text-sm sm:text-base">
-                      demo@gmail.com
+                      support@boycottdenim.com
                     </span>
                   </motion.div>
 
@@ -125,8 +125,11 @@ export default function ContactForm() {
                   >
                     <MapPin className="w-5 h-5 text-yellow-400 mt-1" />
                     <div className="text-sm sm:text-base">
-                      <div>132 Dartmouth Street Boston,</div>
-                      <div>Massachusetts 02156 United States</div>
+                      <div>SUDABI BRANDS PRIVATE LIMITED.
+                          No 3B/415/19A, II Stage 4th Phase Peenya Industrial Area,
+                          100 ft Road, Near TVS Cross,
+                          </div>
+                      <div>Peenya, Bengaluru, Karnataka, India - 560058.</div>
                     </div>
                   </motion.div>
                 </div>
