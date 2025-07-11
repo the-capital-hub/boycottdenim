@@ -112,14 +112,14 @@ const ShopMore = () => {
   }
 
   return (
-    <div className={`${ptMono.className} w-full max-w-7xl mx-auto px-4 py-5` }>
+    <div className={`${ptMono.className} w-full max-w-7xl mx-auto px-4 py-5`} >
         <div className='w-full max-w-5xl mx-auto my-5'>
             <h1 className='text-[64px] text-center text-black'>See all products</h1>
             <p className='text-[18px] text-gray-700 text-center'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation..</p>
         </div>
       {/* Product Grid */}
       <motion.div 
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12"
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12 justify-items-center"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
@@ -127,19 +127,19 @@ const ShopMore = () => {
         {products.map((product) => (
           <motion.div
             key={product.id}
-            className="bg-white group cursor-pointer"
+            className="bg-white group cursor-pointer flex flex-col items-center w-auto max-w-xs mx-auto"
             variants={cardVariants}
             whileHover="hover"
           >
             {/* Product Image Container */}
-            <div className="relative aspect-[3/4] overflow-hidden mb-3">
+            <div className="relative aspect-[3/4] overflow-hidden mb-3 w-auto">
               <Image
                 src={product.image}
                 alt={product.title}
                 fill
                 className="object-cover group-hover:scale-105 transition-transform duration-300 pb-12"
               />
-            <div className="space-y-1 top-[90%] relative left-4">
+            <div className="space-y-1 top-[90%] relative text-left px-2 w-full">
               <h3 className="text-sm text-gray-800 font-normal">
                 {product.title}
               </h3>

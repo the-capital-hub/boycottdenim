@@ -279,7 +279,7 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({ isOpen, setIsOpen }) =>
 
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-25 z-40 md:hidden"
+          className="fixed inset-0 bg-opacity-25 z-40 md:hidden"
           onClick={() => setIsOpen(false)}
         />
       )}

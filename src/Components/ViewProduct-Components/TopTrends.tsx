@@ -110,7 +110,7 @@ const TopTrends = () => {
             <h1 className='text-black text-[64px] text-center font-bold mb-4'>Top Trends</h1>
         </div>
       <motion.div 
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 lg:gap-[2rem] overflow-x-hidden mx-auto"
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-[2rem] overflow-x-hidden mx-auto"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
