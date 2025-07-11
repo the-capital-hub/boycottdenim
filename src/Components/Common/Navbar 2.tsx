@@ -207,7 +207,7 @@ const Navbar = ({ isDark = true }: { isDark?: boolean }) => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -20, scale: 0.95 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
-            className="absolute top-full left-4 right-4 mt-2 bg-transparent bg-opacity-20 backdrop-blur-lg rounded-lg shadow-xl border border-gray-600 lg:hidden z-50"
+            className="absolute top-full left-4 right-4 mt-2 bg-white/50 bg-opacity-50 backdrop-blur-lg rounded-lg shadow-xl border border-gray-600 lg:hidden z-50"
           >
             <div className="p-4 space-y-1">
               {/* Mobile Search */}
@@ -219,7 +219,6 @@ const Navbar = ({ isDark = true }: { isDark?: boolean }) => {
                 />
               </div>
 
-              {/* Mobile Navigation Links */}
               {NavLinks.map((link, index) => (
                 <motion.div
                   key={link.href}
@@ -234,7 +233,7 @@ const Navbar = ({ isDark = true }: { isDark?: boolean }) => {
                     className={`block px-3 py-3 rounded-md text-base font-medium transition-all duration-200 ${
                       pathname === link.href
                         ? `${activeTextColor} text-black text-xl font-bold`
-                        : `text-gray-900 hover:black  ${hoverText}`
+                        : `text-black hover:black  ${hoverText}`
                     }`}
                   >
                     {link.name}
