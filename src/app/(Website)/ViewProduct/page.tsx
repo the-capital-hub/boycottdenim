@@ -9,7 +9,7 @@ const page = () => {
   return (
     <div>
       <Navbar2 />
-<ViewSection/>
+      <ViewSection/>
       <TopTrends />
       <MatchMaker />
       <UnitedByDenim />

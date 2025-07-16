@@ -14,7 +14,7 @@ const ptMono = PT_Mono({
   display: "swap",
 });
 
-const fits = [
+ export const fits = [
   {
     id: 1,
     title: "ANKLE FIT",
@@ -41,8 +41,13 @@ const fits = [
   },
 ];
 
-const GenzFitsSection = () => {
-  const [currentSlide, setCurrentSlide] = useState(0);
+type GenzFitsSectionProps = {
+  activeSlide: number;
+  setActiveSlide: (index: number) => void;
+};
+
+const GenzFitsSection: React.FC<GenzFitsSectionProps> = ({ activeSlide, setActiveSlide }) => {
+  const [currentSlide, setCurrentSlide] = useState(activeSlide);
   const sliderRef = useRef<HTMLDivElement>(null);
 
   // Drag states
@@ -85,7 +90,17 @@ const GenzFitsSection = () => {
         behavior: "smooth",
       });
     }
-  }, [currentSlide]);
+  }, [activeSlide]);
+
+  useEffect(() => {
+    setCurrentSlide(activeSlide);
+  }, [activeSlide]);
+
+  useEffect(() => {
+    if (setActiveSlide) {
+      setActiveSlide(currentSlide);
+    }
+  }, [currentSlide, setActiveSlide]);
 
   const cardVariants: Variants = {
     hidden: { opacity: 0, y: 50, scale: 0.95 },
@@ -123,9 +138,10 @@ const GenzFitsSection = () => {
             onMouseUp={stopDrag}
             className="flex gap-6 md:gap-8 text-black overflow-x-auto no-scrollbar cursor-grab active:cursor-grabbing transition-transform ease-in-out"
           >
-            {fits.map((fit) => (
+            {fits.map((fit,index) => (
               <motion.div
                 key={fit.id}
+                onClick={() => setActiveSlide(index)}
                 className="flex-shrink-0 rounded-lg shadow-lg relative"
                 style={{
                   backgroundColor: fit.bgColor,

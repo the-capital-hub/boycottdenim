@@ -2,11 +2,14 @@
 import React, { useState } from 'react';
 import { ArrowUpDown, Grid, List } from 'lucide-react';
 import Image from 'next/image';
-import img1 from "../../../public/shop1.png"
-import img2 from "../../../public/shop2.png"
+import { fits } from '../Genz-Component/GenzFitsSection';
 import { PT_Mono } from 'next/font/google';
 import FilterDropdown from '../Common/Filter';
-
+import GenzFitsSection from '../Genz-Component/GenzFitsSection';
+import img1 from "../../../public/aanklefit.png";
+import img2 from "../../../public/slimfit.png";
+import img3 from "../../../public/relaxedfit.png";
+import img4 from "../../../public/aanklefit.png";
 
 const ptMono = PT_Mono({
   weight: ["400"],
@@ -15,46 +18,25 @@ const ptMono = PT_Mono({
 });
 
 const Herosection = () => {
-  const [activeFilter, setActiveFilter] = useState('SLIM FIT');
+  const [activeSlide, setActiveSlide] = useState(0);
+  const activeFilter = fits[activeSlide].title;
   const [viewMode, setViewMode] = useState('grid');
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
-  const jeanTypes = [
-    { name: 'ANKLE FIT', count: 289, isActive: false },
-    { name: 'SLIM FIT', count: 309, isActive: true },
-    { name: 'RELAXED FIT', count: 348, isActive: false },
-    { name: 'STRAIGHT FIT', count: 261, isActive: false }
-  ];
+  // const jeanTypes = [
+  //   { name: 'ANKLE FIT', count: 289, isActive: false },
+  //   { name: 'SLIM FIT', count: 309, isActive: true },
+  //   { name: 'RELAXED FIT', count: 348, isActive: false },
+  //   { name: 'STRAIGHT FIT', count: 261, isActive: false }
+  // ];
 
   return (
     <div className={`${ptMono.className} bg-white mt-20`}>
       {/* Top Navigation */}
-      <div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
-            {/* Jeans Types Navigation */}
-            <div className="flex flex-wrap items-center gap-0">
-              {jeanTypes.map((type) => (
-                <button
-                  key={type.name}
-                  onClick={() => setActiveFilter(type.name)}
-                  className={`px-4 sm:px-6 py-2 sm:py-4 text-[18px] sm:text-[25px] font-medium transition-all duration-200 relative ${
-                    type.isActive || activeFilter === type.name
-                      ? 'text-black font-semibold'
-                      : 'text-gray-400 hover:text-gray-600'
-                  }`}
-                >
-                  {type.name} ({type.count})
-                  {(type.isActive || activeFilter === type.name) && (
-                    <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-black"></div>
-                  )}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
+      {/* <GenzFitsSection/> */}
 
+      <GenzFitsSection activeSlide={activeSlide} setActiveSlide={setActiveSlide}/>
+      {/* <h1>{fits[activeSlide].title}</h1> */}
       {/* Active Section Title */}
       <div className="max-w-7xl flex flex-col sm:flex-row justify-between items-start sm:items-center mx-auto px-4 sm:px-6 lg:px-8 py-6 gap-4 sm:gap-0">
         <h1 className="text-[20px] sm:text-[24px] font-medium text-black">{activeFilter}</h1>
@@ -67,6 +49,8 @@ const Herosection = () => {
             <ArrowUpDown size={16} />
             SORT BY
           </button>
+
+          
 
           <div className="flex items-center gap-2">
             <button
@@ -88,6 +72,8 @@ const Herosection = () => {
           </div>
         </div>
       </div>
+
+     
 
       {/* Products Grid */}
       <div className="max-w-7xl container mx-auto px-4 sm:px-6 lg:px-8">

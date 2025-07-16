@@ -7,6 +7,7 @@ import { PT_Mono } from "next/font/google";
 import bg from "../../../public/Hero-img.png";
 import person1 from "../../../public/person1.jpg";
 import person2 from "../../../public/person2.jpg";
+import bg1 from "../../../public/Jeans.png"
 
 const ptMono = PT_Mono({
   weight: ["400"],
@@ -23,7 +24,7 @@ const HeroSection = () => {
       {/* Background Image */}
       <div className="absolute inset-0">
         <Image
-          src={bg}
+          src={bg1}
           alt="Hero background denim texture"
           fill
           className="object-cover"
