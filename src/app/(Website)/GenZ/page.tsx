@@ -1,3 +1,5 @@
+'use client';
+
 import Navbar2 from '@/Components/Common/Navbar 2'
 import UnitedByDenim from '@/Components/Common/UnitedByDenim'
 import ExclusiveSection from '@/Components/Genz-Component/ExclusiveSection'
