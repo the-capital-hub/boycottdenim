@@ -7,13 +7,15 @@ import NewStyle from '@/Components/Genz-Component/NewStyle'
 import React from 'react'
 
 const page = () => {
+  const [activeSlide, setActiveSlide] = React.useState(0);
+
   return (
     <div>
       <Navbar2/>
       <HeroSection/>
-      <GenzFitsSection/>
-     <ExclusiveSection/>
-     <NewStyle/>
+      <GenzFitsSection activeSlide={activeSlide} setActiveSlide={setActiveSlide} />
+      <ExclusiveSection/>
+      <NewStyle/>
       <UnitedByDenim/>
     </div>
   )
