@@ -9,6 +9,7 @@ import img4 from "../../../public/shop4.png"
 import img5 from "../../../public/shop4.png"
 import img6 from "../../../public/shop3.png"
 import { PT_Mono } from 'next/font/google'
+import { useRouter } from 'next/navigation'
 
 const ptMono = PT_Mono({
     weight: ["400"],
@@ -17,6 +18,11 @@ const ptMono = PT_Mono({
   });
 
 const MoreProducts = () => {
+  const router = useRouter()
+
+  const handleClick = () => {
+    router.push("/ViewProduct")
+  }
   const products = [
     {
       id: 1,
@@ -111,7 +117,7 @@ const MoreProducts = () => {
   }
 
   return (
-    <div className={`${ptMono.className} w-full max-w-7xl mx-auto px-4 py-5` }>
+    <div className={`${ptMono.className} w-full max-w-7xl mx-auto px-4 py-5` } onClick={handleClick}>
       {/* Product Grid */}
       <motion.div 
         className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12"

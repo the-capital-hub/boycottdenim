@@ -5,6 +5,7 @@ import ItsAboutBoycottSection from "@/Components/home-components/ItsAboutBoycott
 import JeanType from "@/Components/home-components/JeanType";
 import ShopMore from "@/Components/home-components/ShopMore";
 import Testimonial from "@/Components/home-components/Testimonial";
+import HomeBannerGrid from "@/Components/home-components/category";
 import React from "react";
 
 const Home = () => {
@@ -14,6 +15,7 @@ const Home = () => {
       <HeroSection />
       <ItsAboutBoycottSection />
       <JeanType />
+      <HomeBannerGrid/>
       <ShopMore />
       <Testimonial />
       <UnitedByDenim />
