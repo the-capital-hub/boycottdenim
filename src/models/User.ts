@@ -5,8 +5,12 @@ const UserSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
+// <<<<<<< backend
     trim: true,
     minLength : 3
+// =======
+//     trim: true
+// >>>>>>> main
   },
   email: {
     type: String,
@@ -17,6 +21,7 @@ const UserSchema = new mongoose.Schema({
   phone: {
     type: String,
     required: true,
+// <<<<<<< backend
     trim: true,
     validate: {
       validator: function (v: string) {
@@ -26,6 +31,10 @@ const UserSchema = new mongoose.Schema({
     },
   }
   
+// =======
+//     trim: true
+//   }
+// >>>>>>> main
 }, { timestamps: true });
 
 export const User = mongoose.models.User || mongoose.model("User", UserSchema);
