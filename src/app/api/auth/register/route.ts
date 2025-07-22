@@ -7,7 +7,7 @@ import { connectDB } from "@/lib/dbconnect";
 export async function POST(req: NextRequest) {
   await connectDB();
 
-  const { name, email, phone } = await req.json();
+  const { name, email, phone, userType } = await req.json();
 
   if (!name || !email || !phone) {
     return NextResponse.json({ message: "All fields are required." }, { status: 400 });
@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ message: "User already exists." }, { status: 409 });
   }
 
-  const newUser = new User({ name, email, phone });
+  const newUser = new User({ name, email, phone, userType });
   await newUser.save();
 
   return NextResponse.json({ message: "User registered successfully." }, { status: 201 });

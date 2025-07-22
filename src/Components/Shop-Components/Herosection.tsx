@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ArrowUpDown, Grid, List } from 'lucide-react';
 import Image from 'next/image';
 import { fits } from '../Genz-Component/GenzFitsSection';
@@ -12,6 +12,8 @@ import img3 from "../../../public/relaxedfit.png";
 import img4 from "../../../public/aanklefit.png";
 import { useRouter } from 'next/navigation';
 
+
+
 const ptMono = PT_Mono({
   weight: ["400"],
   subsets: ["latin"],
@@ -23,15 +25,34 @@ const Herosection = () => {
   const activeFilter = fits[activeSlide].title;
   const [viewMode, setViewMode] = useState('grid');
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const router = useRouter()
+  const router = useRouter();
 
-  // const jeanTypes = [
-  //   { name: 'ANKLE FIT', count: 289, isActive: false },
-  //   { name: 'SLIM FIT', count: 309, isActive: true },
-  //   { name: 'RELAXED FIT', count: 348, isActive: false },
-  //   { name: 'STRAIGHT FIT', count: 261, isActive: false }
-  // ];
+
+  const fetchProducts = async () => {
+    try {
+      const res = await fetch("api/product/getAllProducts");
+      const data = await res.json();
+      console.log("data is ",data);
+      
+      setProducts(data.products);
+    } catch (err) {
+      console.error("Failed to fetch products:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+  // cfetchProducts()
+  console.log("pro",products);
+  
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+
 
   const handleClick = () => {
     router.push("/ViewProduct")
