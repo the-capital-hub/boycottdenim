@@ -160,13 +160,15 @@ const Navbar = ({ isDark = true }: { isDark?: boolean }) => {
             <Image src={cart} alt="cart icon" width={50} className="w-10 md:w-[50px]" />
           </motion.div>
 
-          <motion.div
+        <Link href='/Register'>
+        <motion.div
             whileHover={{ scale: 1.1, y: -2 }}
             whileTap={{ scale: 0.9 }}
             className="cursor-pointer"
           >
             <Image src={user} alt="profile icon" width={50} className="w-10 md:w-[50px]" />
           </motion.div>
+        </Link>
 
           {/* Mobile Menu Button */}
           <motion.button

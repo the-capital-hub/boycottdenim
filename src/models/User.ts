@@ -21,7 +21,7 @@ const UserSchema = new mongoose.Schema({
   phone: {
     type: String,
     required: true,
-// <<<<<<< backend
+
     trim: true,
     validate: {
       validator: function (v: string) {
@@ -29,12 +29,14 @@ const UserSchema = new mongoose.Schema({
       },
       message: "Phone number must be exactly 10 digits",
     },
+  },
+
+  userType: {
+    type: String,
+    enum : ["User", "Admin"],
+    default: 'User'
   }
   
-// =======
-//     trim: true
-//   }
-// >>>>>>> main
 }, { timestamps: true });
 
 export const User = mongoose.models.User || mongoose.model("User", UserSchema);

@@ -13,14 +13,14 @@ export default function HomeBannerGrid() {
   const router = useRouter();
 
   const topRow = [
-    { name: "MEN", img: menImg, link: "/men" },
-    { name: "WOMEN", img: womenImg, link: "/women" },
-    { name: "DENIM", img: denimImg, link: "/denim" },
+    { name: "MEN", img: menImg, link: "/api/product/filterProducts/men" },
+    { name: "WOMEN", img: womenImg, link: "/api/product/filterProducts/women" },
+    { name: "DENIM", img: denimImg, link: "/api/product/filterProducts/denim" },
   ];
 
   const bottomRow = [
-    { name: "ICONIC", img: iconImg, link: "/iconimg" },
-    { name: "D2WORLD", img: summerLover, link: "/summerLover" },
+    { name: "ICONIC", img: iconImg, link: "/api/product/filterProducts/iconimg" },
+    { name: "D2WORLD", img: summerLover, link: "/api/product/filterProducts/summerLover" },
   ];
 
   return (
@@ -30,7 +30,7 @@ export default function HomeBannerGrid() {
         {topRow.map((item, i) => (
           <div
             key={i}
-            // onClick={() => router.push(item.link)}
+            onClick={() => router.push(item.link)}
             className="relative group cursor-pointer h-[70vh]"
           >
             <Image
@@ -54,7 +54,7 @@ export default function HomeBannerGrid() {
         {bottomRow.map((item, i) => (
           <div
             key={i}
-            // onClick={() => router.push(item.link)}
+            onClick={() => router.push(item.link)}
             className="relative group cursor-pointer h-[70vh]"
           >
             <Image
