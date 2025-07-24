@@ -39,7 +39,7 @@ const ProductSchema = new mongoose.Schema({
     },
     categories: {
         type : String,
-        enum : ['ankle fit','slim fit','relaxed fit','straight fit'],
+        enum : ['ankle-fit','slim-fit','relaxed-fit','straight-fit'],
         required : true
     },
     favorites : [{
