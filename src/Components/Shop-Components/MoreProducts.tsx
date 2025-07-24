@@ -17,56 +17,26 @@ const ptMono = PT_Mono({
     display: "swap",
   });
 
-const MoreProducts = () => {
+  type Product = {
+    _id?: string;
+    name: string;
+    price: number;
+    discount?: number;
+    image?: string;
+    // Add any other fields as needed
+  };
+
+  interface Props {
+    products: Product[];
+  }
+
+  const MoreProducts: React.FC<Props> = ({ products }) => {
   const router = useRouter()
 
   const handleClick = () => {
     router.push("/ViewProduct")
   }
-  const products = [
-    {
-      id: 1,
-      image: img1,
-      title: "Light Grey Ankle Jeans",
-      price: "Rs. 1,399.00",
-      discount: "40% OFF"
-    },
-    {
-      id: 2,
-      image: img2,
-      title: "Light Grey Ankle Jeans",
-     price: "Rs. 1,399.00",
-      discount: "40% OFF"
-    },
-    {
-      id: 3,
-      image: img3,
-      title: "Light Grey Ankle Jeans",
-     price: "Rs. 1,399.00",
-      discount: "40% OFF"
-    },
-    {
-      id: 4,
-      image: img4,
-      title: "Light Grey Ankle Jeans",
-       price: "Rs. 1,399.00",
-      discount: "40% OFF"
-    },
-    {
-      id: 5,
-      image: img5,
-      title: "Light Skinny Ankle Jeans",
-      price: "Rs. 1,399.00",
-      discount: "40% OFF"
-    },
-    {
-      id: 6,
-      image: img6,
-      title: "Light Grey Ankle Jeans",
-     price: "Rs. 1,399.00",
-      discount: "40% OFF"
-    }
-  ]
+  
 
   const containerVariants:Variants = {
     hidden: { opacity: 0 },
@@ -127,7 +97,7 @@ const MoreProducts = () => {
       >
         {products.map((product) => (
           <motion.div
-            key={product.id}
+            key={product._id}
             className="bg-white group cursor-pointer"
             variants={cardVariants}
             whileHover="hover"
@@ -135,14 +105,14 @@ const MoreProducts = () => {
             {/* Product Image Container */}
             <div className="relative aspect-[3/4]  bg-gray-100 overflow-hidden mb-3">
               <Image
-                src={product.image}
-                alt={product.title}
+                src={img1}
+                alt={product.name}
                 fill
                 className="object-cover group-hover:scale-105 transition-transform duration-300 pb-12"
               />
             <div className="space-y-1 top-[90%] relative left-4">
               <h3 className="text-sm text-gray-800 font-normal">
-                {product.title}
+                {product.name}
               </h3>
               
               {/* Price Section */}
