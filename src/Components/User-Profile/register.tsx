@@ -88,8 +88,10 @@
 import Image from "next/image";
 import user from "../../../public/userRegister.png";
 import { useState } from 'react';
+import { useRouter } from "next/navigation";
 
 export default function PhoneOtpForm() {
+  const router = useRouter()
   const [phone, setPhone] = useState('');
   const [otp, setOtp] = useState('');
   const [message, setMessage] = useState('');
@@ -111,6 +113,8 @@ export default function PhoneOtpForm() {
         setMessage("Login successful!");
         setToken(data.token);
         localStorage.setItem("token", data.token);
+
+        router.push("/")
       } else {
         setMessage(data.error || "Verification failed.");
       }
