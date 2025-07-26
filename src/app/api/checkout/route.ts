@@ -117,8 +117,8 @@ export async function POST(request: NextRequest) {
 			await Cart.findOneAndUpdate({ userId }, { items: [] });
 		}
 
-		// TODO:
-		// 1. Process payment with payment provider(Stripe, Paypal, Razorpay etc.)
+		// Need to implement:
+		// 1. Process payment with payment provider
 		// 2. Save the order to database
 		// 3. Send confirmation email
 

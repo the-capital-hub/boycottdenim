@@ -10,8 +10,9 @@ export interface Product {
 }
 
 export interface CartItem {
+	id: string;
 	productId: string;
-	product?: Product;
+	product: Product;
 	quantity: number;
 	price?: number;
 	size?: string;
@@ -25,34 +26,91 @@ export interface Cart {
 	updatedAt?: Date;
 }
 
-export interface Order {
-	_id?: string;
-	userId: string;
-	items: CartItem[];
-	totalAmount: number;
-	shippingAddress: ShippingAddress;
-	paymentMethod: string;
-	status: "pending" | "confirmed" | "shipped" | "delivered" | "cancelled";
-	createdAt?: Date;
+export interface OrderProduct {
+	productId: string;
+	productName: string;
+	productImage: string;
+	quantity: number;
+	price: number;
+	totalPrice: number;
+	size?: string;
+	color?: string;
 }
 
-export interface ShippingAddress {
-	fullName: string;
-	email: string;
-	phone: string;
+export interface DeliveryAddress {
 	address: string;
 	city: string;
 	state: string;
 	zipCode: string;
 	country: string;
+	fullAddress?: string;
 }
 
-export interface User {
-	_id?: string;
-	name: string;
+export interface CustomerInfo {
+	fullName: string;
 	email: string;
 	phone: string;
-	password: string;
-	userType: "User" | "Admin";
+}
+
+export interface OrderSummary {
+	items: CartItem[];
+	subtotal: number;
+	shipping: number;
+	total: number;
+}
+
+export interface Order {
+	_id?: string;
+	orderNumber: string;
+	userId: string;
+	customerName: string;
+	customerEmail: string;
+	customerMobile: string;
+	products: OrderProduct[];
+	subtotal: number;
+	shippingCost: number;
+	totalAmount: number;
+	paymentMethod: "cod" | "card" | "upi" | "netbanking";
+	paymentStatus: "pending" | "paid" | "failed" | "refunded";
+	status:
+		| "pending"
+		| "confirmed"
+		| "processing"
+		| "shipped"
+		| "delivered"
+		| "cancelled";
+	deliveryAddress: DeliveryAddress;
+	transactionId?: string;
+	trackingNumber?: string;
+	estimatedDelivery?: Date;
+	orderNotes?: string;
+	orderDate: Date;
 	createdAt?: Date;
+	updatedAt?: Date;
+}
+
+export interface CartTotals {
+	subtotal: number;
+	shipping: number;
+	total: number;
+}
+
+export interface CheckoutType {
+	type: "cart" | "buyNow";
+	product?: Product;
+	quantity?: number;
+}
+
+export interface OrderResponse {
+	success: boolean;
+	orderId?: string;
+	orderNumber?: string;
+	error?: string;
+	message?: string;
+}
+
+export interface OrderDetails {
+	orderId: string;
+	orderNumber: string;
+	estimatedDelivery: string;
 }

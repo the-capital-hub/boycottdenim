@@ -1,94 +1,32 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useCartStore } from "@/stores/cartStore";
 import type { CartItem } from "@/types";
+import type { JSX } from "react";
 import cart from "../../../public/Cart 2.svg";
+import { Minus, Plus } from "lucide-react";
 
-export default function Cart() {
-	const [cartItems, setCartItems] = useState<CartItem[]>([]);
-	const [loading, setLoading] = useState(true);
-	const [updating, setUpdating] = useState<string | null>(null);
+export default function CartPage(): JSX.Element {
+	const {
+		items,
+		isLoading,
+		totals,
+		fetchCart,
+		updateQuantity,
+		removeItem,
+		getTotalItems,
+	} = useCartStore();
 
-	// Mock user ID - replace with actual user authentication
-	const userId = "user123";
+	console.log("Items in cart:", items);
 
 	useEffect(() => {
 		fetchCart();
-	}, []);
+	}, [fetchCart]);
 
-	const fetchCart = async () => {
-		try {
-			const response = await fetch(`/api/cart?userId=${userId}`);
-			const data = await response.json();
-			setCartItems(data.items || []);
-		} catch (error) {
-			console.error("Error fetching cart:", error);
-		} finally {
-			setLoading(false);
-		}
-	};
-
-	const updateQuantity = async (
-		productId: string,
-		quantity: number,
-		size?: string,
-		color?: string
-	) => {
-		setUpdating(productId);
-		try {
-			const response = await fetch("/api/cart", {
-				method: "PUT",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ userId, productId, quantity, size, color }),
-			});
-
-			if (response.ok) {
-				const data = await response.json();
-				setCartItems(data.items || []);
-			}
-		} catch (error) {
-			console.error("Error updating quantity:", error);
-		} finally {
-			setUpdating(null);
-		}
-	};
-
-	const removeItem = async (
-		productId: string,
-		size?: string,
-		color?: string
-	) => {
-		try {
-			const params = new URLSearchParams({
-				userId,
-				productId,
-				...(size && { size }),
-				...(color && { color }),
-			});
-
-			const response = await fetch(`/api/cart?${params}`, {
-				method: "DELETE",
-			});
-
-			if (response.ok) {
-				const data = await response.json();
-				setCartItems(data.items || []);
-			}
-		} catch (error) {
-			console.error("Error removing item:", error);
-		}
-	};
-
-	const calculateTotal = () => {
-		return cartItems.reduce((total, item) => {
-			const price = item.product?.price || item.price || 0;
-			return total + price * item.quantity;
-		}, 0);
-	};
-
-	if (loading) {
+	if (isLoading) {
 		return (
 			<div className="min-h-screen flex items-center justify-center">
 				<div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900"></div>
@@ -96,7 +34,7 @@ export default function Cart() {
 		);
 	}
 
-	if (cartItems.length === 0) {
+	if (items.length === 0) {
 		return (
 			<div className="min-h-screen bg-gray-50 py-20">
 				<div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -126,21 +64,21 @@ export default function Cart() {
 	}
 
 	return (
-		<div className="min-h-screen bg-gray-50 pt-20 pb-12">
+		<div className="min-h-screen bg-gray-50 py-20 text-black">
 			<div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
 				<h1 className="text-3xl font-bold text-gray-900 mb-8">Your Cart</h1>
 
 				<div className="bg-white rounded-lg shadow-sm overflow-hidden">
 					<div className="px-6 py-4 border-b border-gray-200">
 						<h2 className="text-lg font-medium text-gray-900">
-							{cartItems.length} {cartItems.length === 1 ? "Item" : "Items"}
+							{getTotalItems()} {getTotalItems() === 1 ? "Item" : "Items"}
 						</h2>
 					</div>
 
 					<div className="divide-y divide-gray-200">
-						{cartItems.map((item, index) => {
+						{items.map((item, index: number) => {
 							const product = item.product;
-							const price = product?.price || item.price || 0;
+							const price = item?.price || 0;
 
 							return (
 								<div
@@ -151,7 +89,7 @@ export default function Cart() {
 										<div className="flex-shrink-0">
 											<Image
 												src={
-													product?.images?.[0] ||
+													"/" + product?.images?.[0] ||
 													"/placeholder.svg?height=120&width=120"
 												}
 												alt={product?.name || "Product"}
@@ -178,24 +116,20 @@ export default function Cart() {
 													<button
 														onClick={() =>
 															updateQuantity(
-																item.productId,
+																item.id,
 																item.quantity - 1,
 																item.size,
 																item.color
 															)
 														}
-														disabled={
-															updating === item.productId || item.quantity <= 1
-														}
-														className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+														disabled={isLoading || item.quantity <= 1}
+														className="w-8 h-8 rounded-full border border-black flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
 													>
-														-
+														<Minus className="w-4 h-4 text-gray-500 cursor-pointer" />
 													</button>
 
-													<span className="text-lg font-medium min-w-[2rem] text-center">
-														{updating === item.productId
-															? "..."
-															: item.quantity}
+													<span className="text-lg text-black font-medium min-w-[2rem] text-center">
+														{item.quantity}
 													</span>
 
 													<button
@@ -207,10 +141,10 @@ export default function Cart() {
 																item.color
 															)
 														}
-														disabled={updating === item.productId}
-														className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+														disabled={isLoading}
+														className="w-8 h-8 rounded-full border border-black flex items-center justify-center  disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
 													>
-														+
+														<Plus className="w-4 h-4 text-black" />
 													</button>
 												</div>
 
@@ -240,12 +174,36 @@ export default function Cart() {
 					</div>
 
 					<div className="px-6 py-4 border-t border-gray-200 bg-gray-50">
-						<div className="flex items-center justify-between mb-4">
-							<span className="text-lg font-medium text-gray-900">Total</span>
-							<span className="text-2xl font-bold text-gray-900">
-								₹{calculateTotal().toLocaleString()}
-							</span>
+						<div className="space-y-2 mb-4">
+							<div className="flex items-center justify-between">
+								<span className="text-gray-600">Subtotal</span>
+								<span className="font-medium text-black">
+									₹{totals.subtotal.toLocaleString()}
+								</span>
+							</div>
+							<div className="flex items-center justify-between">
+								<span className="text-gray-600">Shipping</span>
+								<span className="font-medium text-black">
+									{totals.shipping === 0
+										? "Free"
+										: `₹${totals.shipping.toLocaleString()}`}
+								</span>
+							</div>
+							<div className="flex items-center justify-between text-lg font-bold pt-2 border-t border-gray-200">
+								<span className="text-gray-600">Total</span>
+								<span className="font-medium text-black">
+									₹{totals.total.toLocaleString()}
+								</span>
+							</div>
 						</div>
+
+						{totals.shipping === 0 && (
+							<div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-md">
+								<p className="text-sm text-green-800">
+									🎉 You qualify for free shipping!
+								</p>
+							</div>
+						)}
 
 						<div className="flex space-x-4">
 							<Link

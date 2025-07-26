@@ -3,8 +3,24 @@ import Cart from "@/models/Cart";
 import { Product } from "@/models/Products";
 import { connectDB } from "@/lib/dbconnect";
 
+interface AddToCartRequest {
+	userId: string;
+	productId: string;
+	quantity?: number;
+	size?: string;
+	color?: string;
+}
+
+interface UpdateCartRequest {
+	userId: string;
+	productId: string;
+	quantity: number;
+	size?: string;
+	color?: string;
+}
+
 // GET - Fetch user's cart
-export async function GET(request: NextRequest) {
+export async function GET(request: NextRequest): Promise<NextResponse> {
 	try {
 		await connectDB();
 
@@ -35,7 +51,7 @@ export async function GET(request: NextRequest) {
 }
 
 // POST - Add item to cart
-export async function POST(request: NextRequest) {
+export async function POST(request: NextRequest): Promise<NextResponse> {
 	try {
 		await connectDB();
 
@@ -45,7 +61,7 @@ export async function POST(request: NextRequest) {
 			quantity = 1,
 			size,
 			color,
-		} = await request.json();
+		}: AddToCartRequest = await request.json();
 
 		if (!userId || !productId) {
 			return NextResponse.json(
@@ -107,11 +123,12 @@ export async function POST(request: NextRequest) {
 }
 
 // PUT - Update cart item quantity
-export async function PUT(request: NextRequest) {
+export async function PUT(request: NextRequest): Promise<NextResponse> {
 	try {
 		await connectDB();
 
-		const { userId, productId, quantity, size, color } = await request.json();
+		const { userId, productId, quantity, size, color }: UpdateCartRequest =
+			await request.json();
 
 		if (!userId || !productId || quantity < 0) {
 			return NextResponse.json(
@@ -159,7 +176,7 @@ export async function PUT(request: NextRequest) {
 }
 
 // DELETE - Remove item from cart
-export async function DELETE(request: NextRequest) {
+export async function DELETE(request: NextRequest): Promise<NextResponse> {
 	try {
 		await connectDB();
 
