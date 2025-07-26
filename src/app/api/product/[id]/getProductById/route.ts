@@ -6,12 +6,12 @@ import { connectDB } from "@/lib/dbconnect";
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
-) {
+  context: { params: { id: string } } 
+){
   await connectDB();
 
   try {
-    const { id } = params;
+    const { id } = context.params;
 
     if (!id) {
       return NextResponse.json({ message: "Product ID is required" }, { status: 400 });

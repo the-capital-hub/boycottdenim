@@ -51,37 +51,13 @@ const Herosection: React.FC<Props> = ({ products }) => {
   const limit = 8;
 
 
-  // const fetchProducts = async () => {
-  //   try {
-  //     const res = await fetch(`/api/product/getAllProducts?page=${page}&limit=${limit}`);
-  //     const data = await res.json();
-  //     console.log("data is ",data);
-      
-  //     setProducts(data.products);
-  //   } catch (err) {
-  //     console.error("Failed to fetch products:", err);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
 
-  // console.log("pro",products);
-
-
-  const firstTwoProducts = products.slice(0, 2);
-  const remainingProducts = products.slice(2);
-  
-
-  // useEffect(() => {
-  //   fetchProducts();
-  // }, []);
 
   
 
   const handleClick = (id: string | undefined) => {
-    console.log(id);
-    
-    router.push(`/api/product/${id}/getProductById`);
+    if (!id) return;
+    router.push(`/product/${id}`);
   };
 
   return (
@@ -131,49 +107,63 @@ const Herosection: React.FC<Props> = ({ products }) => {
 
       {/* Products Grid */}
       
-  <div>     
-  <div className="max-w-8xl container mx-auto px-4 sm:px-6 lg:px-8">
-  <div className="grid grid-cols-1 md:grid-cols-2 gap-12 sm:gap-[15rem]">
-    {firstTwoProducts.map((product, index) => (
-      <div key={index} className="group cursor-pointer relative" onClick={() => handleClick(product._id)}>
-        <div className="bg-gray-100 aspect-[4/5] w-full md:w-[40vw] h-[50vh] md:h-[60vh] overflow-hidden mb-4 relative">
-          <div className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
-            <Image
-              src={img1} // Replace with product.image if available
-              alt={product.name || 'product'}
-              className="w-full h-full object-contain"
-            />
-          </div>
-        </div>
-
-        <div className="space-y-2 absolute left-4 md:left-2 bottom-4 md:bottom-5">
-          <h3 className="text-[14px] font-normal text-black">
-            {product.name || "Untitled"}
-          </h3>
-          <div className="text-[14px] font-medium text-black">
-            Rs .{product.price || "0.00"}
-          </div>
-          {/* {product.discount && ( */}
-            <div className="inline-block">
-              <span className="bg-[#ffe800] text-black text-xs font-semibold px-2 py-1 rounded-full">
-                {product.discount || "40% off" }  
-              </span>
+     
+      <div className="max-w-7xl container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 sm:gap-[15rem]">
+          {/* Product 1 */}
+          <div className="group cursor-pointer relative" onClick={() => handleClick(products[0]._id)}>
+            <div className="bg-gray-100 aspect-[4/5] w-full md:w-[50vw] h-[50vh] md:h-[60vh] overflow-hidden mb-4 relative">
+              <div className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
+                <Image src={img1} alt='product 1' className="w-full h-full object-contain" />
+              </div>
             </div>
-          {/* // )} */}
+
+            <div className="space-y-2 absolute left-4 md:left-2 bottom-4 md:bottom-5">
+              <h3 className="text-[14px] font-normal text-black">
+                {products[0]?.name}
+              </h3>
+              <div className="text-[14px] font-medium text-black">
+                Rs. {products[0]?.price}
+              </div>
+              <div className="inline-block">
+                <span className="bg-[#ffe800] text-black text-xs font-semibold px-2 py-1 rounded-full">
+                  40% off
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Product 2 */}
+          <div className="group cursor-pointer relative" onClick={() => handleClick(products[0]._id)}>
+            <div className="bg-gray-100 aspect-[4/5] w-full md:w-[35vw] h-[50vh] md:h-[60vh] overflow-hidden mb-4 relative">
+              <div className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
+                <Image src={img2} alt='product 2' className="w-full h-full object-contain" />
+              </div>
+            </div>
+
+            <div className="space-y-2 absolute right-4 md:right-[60%] bottom-4 md:bottom-5">
+              <h3 className="text-[14px] font-normal text-black">
+                {products[1]?.name}
+              </h3>
+              <div className="text-[14px] font-medium text-black">
+                Rs. {products[1]?.price}
+              </div>
+              <div className="inline-block">
+                <span className="bg-[#ffe800] text-black text-xs font-semibold px-2 py-1 rounded-full">
+                  40% off
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    ))}
-  </div>
-</div>
-</div>
-
-</div>  
-    
+    </div>
   );
 };
 
-
-
-
-
 export default Herosection;
+
+
+
+
+

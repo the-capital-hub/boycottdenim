@@ -16,7 +16,19 @@ const ptMono = PT_Mono({
     display: "swap",
   });
 
-const ViewSection = () => {
+  type ViewSectionProps = {
+    product: {
+      name: string;
+      price: number;
+      discount?: number;
+      image?: string;
+      description?: string;
+      color?: string;
+      size?: string[];
+    };
+  };
+
+  const ViewSection: React.FC<ViewSectionProps> = ({ product }) => {
   const [selectedColor, setSelectedColor] = useState('Black');
   const [selectedWaistSize, setSelectedWaistSize] = useState('32');
   const [selectedInseamSize, setSelectedInseamSize] = useState('32');
@@ -32,7 +44,7 @@ const ViewSection = () => {
     <div className={`${ptMono.className} min-h-screen mx-auto w-full max-w-7xl bg-white mt-22`}>
       {/* Header */}
       <div className="flex items-center justify-between p-4 text-black">
-        <h1 className="text-lg font-medium">Light Grey Ankle Jeans</h1>
+        <h1 className="text-lg font-medium">{product.name}</h1>
         <div className="flex items-center gap-4">
           {/* <div className="flex items-center  text-white px-3 py-1 rounded-full text-sm">
           <FilterDropdown isOpen={isFilterOpen} setIsOpen={setIsFilterOpen} />
@@ -104,11 +116,11 @@ const ViewSection = () => {
           </div>
 
           {/* Product Title */}
-          <h2 className="text-2xl lg:text-[38px] text-black font-bold mb-4">Light Grey Ankle Jeans</h2>
+          <h2 className="text-2xl lg:text-[38px] text-black font-bold mb-4">{product.name}</h2>
 
           {/* Price */}
           <div className="flex items-center gap-2 mb-6">
-            <span className="text-2xl lg:text-[28px] text-black  font-bold">Rs. 1,399.00</span>
+            <span className="text-2xl lg:text-[28px] text-black  font-bold">Rs. {product.price}</span>
             <span className="bg-yellow-400 text-black px-2 py-1 text-xs font-medium rounded">40% OFF</span>
           </div>
 
@@ -222,7 +234,8 @@ const ViewSection = () => {
           <div>
             <h3 className="font-medium mb-3 text-black text-[20px]">Product Description</h3>
             <p className="text-gray-600 lg:text-[18px] text-sm leading-relaxed">
-              Stay stylish and comfortable in these newly trending BAGGY JEANS. Experience an optimal fit with their tapered design, striking the perfect balance between breathability and unrestricted movement for various activities. Make these jeans a must-have in your wardrobe for a versatile and fashionable touch.
+              {product.description}
+
             </p>
           </div>
         </motion.div>
