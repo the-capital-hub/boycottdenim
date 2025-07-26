@@ -113,7 +113,7 @@ export default function Cart() {
 								<p className="text-xl">Your cart is empty</p>
 							</div>
 							<Link
-								href="/products"
+								href="/Shop"
 								className="inline-block bg-yellow-400 text-black px-8 py-3 rounded-md font-medium hover:bg-yellow-500 transition-colors"
 							>
 								Continue Shopping
