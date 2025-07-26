@@ -11,17 +11,17 @@ import summerLover from "../../../public/summerlovers.png";
 
 export default function HomeBannerGrid() {
   const router = useRouter();
-
   const topRow = [
-    { name: "MEN", img: menImg, link: "/api/product/filterProducts/men" },
-    { name: "WOMEN", img: womenImg, link: "/api/product/filterProducts/women" },
-    { name: "DENIM", img: denimImg, link: "/api/product/filterProducts/denim" },
+    { name: "MEN", img: menImg, link: "/Shop?gender=men" },
+    { name: "WOMEN", img: womenImg, link: "/Shop?gender=women" },
+    { name: "DENIM", img: denimImg, link: "/Shop?category=denim" },
   ];
-
+  
   const bottomRow = [
-    { name: "ICONIC", img: iconImg, link: "/api/product/filterProducts/iconimg" },
-    { name: "D2WORLD", img: summerLover, link: "/api/product/filterProducts/summerLover" },
+    { name: "ICONIC", img: iconImg, link: "/Shop?category=iconic" },
+    { name: "D2WORLD", img: summerLover, link: "/Shop?category=d2world" },
   ];
+  
 
   return (
     <div className="w-full">

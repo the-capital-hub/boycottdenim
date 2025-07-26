@@ -1,75 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Product } from "@/models/Products";
 import cloudinary from "@/lib/cloudinary";
+import { adminMiddleware } from "../../../../../middleware/auth";
 
-// export async function POST(req: NextRequest) {
-// 	try {
-// 		const { name, description, price, stock, images, gender, categories } =
-// 			await req.json();
-
-// 		if (
-// 			!name ||
-// 			!description ||
-// 			!price ||
-// 			!stock ||
-// 			!images ||
-// 			images.length === 0 ||
-// 			!gender ||
-// 			!categories
-// 		) {
-// 			return NextResponse.json(
-// 				{ message: "All fields are required" },
-// 				{ status: 400 }
-// 			);
-// 		}
-
-// 		// Upload each image using Cloudinary upload_stream
-// 		const uploadPromises = images.map(async (image) => {
-// 			const buffer = Buffer.from(await image.arrayBuffer());
-// 			return new Promise<string>((resolve, reject) => {
-// 				cloudinary.uploader
-// 					.upload_stream(
-// 						{
-// 							resource_type: "image",
-// 							folder: "products",
-// 						},
-// 						(error, result) => {
-// 							if (error) reject(error);
-// 							else resolve(result!.secure_url);
-// 						}
-// 					)
-// 					.end(buffer);
-// 			});
-// 		});
-
-// 		const imageUrls = await Promise.all(uploadPromises);
-
-// 		const product = new Product({
-// 			name,
-// 			description,
-// 			price,
-// 			stock,
-// 			images: imageUrls,
-// 			gender,
-// 			categories,
-// 		});
-
-// 		await product.save();
-
-// 		return NextResponse.json(
-// 			{ message: "Product Added Successfully", product },
-// 			{ status: 201 }
-// 		);
-// 	} catch (error) {
-// 		console.error("Error creating product:", error);
-// 		return NextResponse.json(
-// 			{ message: "Something went wrong" },
-// 			{ status: 500 }
-// 		);
-// 	}
-// }
-
-export async function POST(req: NextRequest) {
+const handler = async (
+	req: NextRequest,
+	user: { userId: string; role: string }
+) => {
 	try {
 		const formData = await req.formData();
 
@@ -140,4 +77,6 @@ export async function POST(req: NextRequest) {
 			{ status: 500 }
 		);
 	}
-}
+};
+
+export const POST = adminMiddleware(handler);

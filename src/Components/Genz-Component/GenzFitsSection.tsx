@@ -7,6 +7,7 @@ import img2 from "../../../public/slimfit.png";
 import img3 from "../../../public/relaxedfit.png";
 import img4 from "../../../public/aanklefit.png";
 import { PT_Mono } from "next/font/google";
+import { useRouter } from "next/navigation";
 
 const ptMono = PT_Mono({
   weight: ["400"],
@@ -14,7 +15,7 @@ const ptMono = PT_Mono({
   display: "swap",
 });
 
- export const fits = [
+export const fits = [
   {
     id: 1,
     title: "ANKLE FIT",
@@ -46,11 +47,14 @@ type GenzFitsSectionProps = {
   setActiveSlide: (index: number) => void;
 };
 
-const GenzFitsSection: React.FC<GenzFitsSectionProps> = ({ activeSlide, setActiveSlide }) => {
+const GenzFitsSection: React.FC<GenzFitsSectionProps> = ({
+  activeSlide,
+  setActiveSlide,
+}) => {
   const [currentSlide, setCurrentSlide] = useState(activeSlide);
   const sliderRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
 
-  // Drag states
   const isDragging = useRef(false);
   const startX = useRef(0);
   const scrollLeft = useRef(0);
@@ -65,7 +69,7 @@ const GenzFitsSection: React.FC<GenzFitsSectionProps> = ({ activeSlide, setActiv
     if (!isDragging.current) return;
     e.preventDefault();
     const x = e.pageX - (sliderRef.current?.offsetLeft || 0);
-    const walk = (x - startX.current) * 1.5; // scroll-fast
+    const walk = (x - startX.current) * 1.5;
     if (sliderRef.current)
       sliderRef.current.scrollLeft = scrollLeft.current - walk;
   };
@@ -84,7 +88,8 @@ const GenzFitsSection: React.FC<GenzFitsSectionProps> = ({ activeSlide, setActiv
 
   useEffect(() => {
     if (sliderRef.current) {
-      const cardWidth = sliderRef.current.offsetWidth / (window.innerWidth < 768 ? 1 : 3);
+      const cardWidth =
+        sliderRef.current.offsetWidth / (window.innerWidth < 768 ? 1 : 3);
       sliderRef.current.scrollTo({
         left: currentSlide * cardWidth,
         behavior: "smooth",
@@ -117,6 +122,12 @@ const GenzFitsSection: React.FC<GenzFitsSectionProps> = ({ activeSlide, setActiv
     },
   };
 
+  const handleCardClick = (fit: string, index: number) => {
+    setActiveSlide(index);
+    const formatted = fit.toLowerCase().replace(/\s+/g, "-");
+    router.push(`/Shop?fit=${formatted}`);
+  };
+
   return (
     <div className={`w-full bg-white py-8 md:py-12 px-4 ${ptMono.className}`}>
       <motion.div
@@ -136,13 +147,15 @@ const GenzFitsSection: React.FC<GenzFitsSectionProps> = ({ activeSlide, setActiv
             onMouseMove={onDrag}
             onMouseLeave={stopDrag}
             onMouseUp={stopDrag}
-            className="flex gap-6 md:gap-8 text-black overflow-x-auto no-scrollbar cursor-grab active:cursor-grabbing transition-transform ease-in-out"
+            className="flex gap-6 md:gap-8 text-black overflow-x-auto no-scrollbar cursor-grab active:cursor-grabbing"
           >
-            {fits.map((fit,index) => (
+            {fits.map((fit, index) => (
               <motion.div
                 key={fit.id}
-                onClick={() => setActiveSlide(index)}
-                className="flex-shrink-0 rounded-lg shadow-lg relative"
+                onClick={() => handleCardClick(fit.title, index)}
+                className={`flex-shrink-0 rounded-lg shadow-lg relative border-2 transition-all duration-300 ${
+                  currentSlide === index ? "scale-[1.05] border-black" : "border-transparent"
+                }`}
                 style={{
                   backgroundColor: fit.bgColor,
                   width: "80vw",
