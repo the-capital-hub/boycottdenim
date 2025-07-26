@@ -5,16 +5,16 @@ const AddProductForm = () => {
   const [form, setForm] = useState({
     name: "",
     price: "",
-    discount: "",
-    category: "",
+    stock: "",
+    category: "", // comma-separated string input
     gender: "",
-    size: [] as string[],
-    color: "",
     images: [""],
     description: "",
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
   };
@@ -29,15 +29,6 @@ const AddProductForm = () => {
     setForm((prev) => ({ ...prev, images: [...prev.images, ""] }));
   };
 
-  const handleSizeChange = (size: string) => {
-    setForm((prev) => ({
-      ...prev,
-      size: prev.size.includes(size)
-        ? prev.size.filter((s) => s !== size)
-        : [...prev.size, size],
-    }));
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (form.description.length < 32) {
@@ -45,24 +36,50 @@ const AddProductForm = () => {
       return;
     }
 
+    const payload = {
+      name: form.name,
+      price: Number(form.price),
+      stock: Number(form.stock),
+      gender: form.gender,
+      description: form.description,
+      images: form.images.filter((img) => img.trim() !== ""),
+      categories: form.category.trim(),
+
+    };
+
     try {
-      const res = await fetch("/api/product/add", {
+      const res = await fetch("/api/product/createProduct", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify(payload),
       });
+
       const data = await res.json();
-      console.log("Product added:", data);
-      alert("Product added successfully!");
+
+      if (res.ok) {
+        alert("✅ Product added successfully!");
+        console.log(data);
+        setForm({
+          name: "",
+          price: "",
+          stock: "",
+          category: "",
+          gender: "",
+          images: [""],
+          description: "",
+        });
+      } else {
+        alert(`❌ ${data.message || "Failed to add product"}`);
+      }
     } catch (error) {
       console.error("Error adding product:", error);
-      alert("Error adding product.");
+      alert("❌ Server error while adding product.");
     }
   };
 
   return (
     <div className="max-w-4xl mx-auto p-8 bg-white rounded shadow mt-10">
-      <h1 className="text-2xl font-bold mb-6">Add New Product</h1>
+      <h1 className="text-2xl font-bold mb-6 text-gray-800">Add New Product</h1>
       <form onSubmit={handleSubmit} className="space-y-6">
 
         {/* Name */}
@@ -92,29 +109,32 @@ const AddProductForm = () => {
           />
         </div>
 
-        {/* Discount */}
+        {/* Stock */}
         <div>
-          <label className="block font-medium mb-2">Discount (%)</label>
+          <label className="block font-medium mb-2">Stock</label>
           <input
-            name="discount"
+            name="stock"
             type="number"
-            value={form.discount}
+            value={form.stock}
             onChange={handleChange}
+            required
             className="w-full border p-2 rounded"
-            placeholder="Optional"
+            placeholder="Enter available stock"
           />
         </div>
 
-        {/* Category */}
+        {/* Categories */}
         <div>
-          <label className="block font-medium mb-2">Category</label>
+          <label className="block font-medium mb-2">Categories</label>
           <input
             name="category"
             value={form.category}
             onChange={handleChange}
+            required
             className="w-full border p-2 rounded"
-            placeholder="e.g. ankle-fit, slim-fit"
+            placeholder="e.g. jeans, casual, slim-fit"
           />
+          <p className="text-xs text-gray-500 mt-1">Separate multiple categories with commas</p>
         </div>
 
         {/* Gender */}
@@ -124,6 +144,7 @@ const AddProductForm = () => {
             name="gender"
             value={form.gender}
             onChange={handleChange}
+            required
             className="w-full border p-2 rounded"
           >
             <option value="">Select Gender</option>
@@ -131,35 +152,6 @@ const AddProductForm = () => {
             <option value="women">Women</option>
             <option value="unisex">Unisex</option>
           </select>
-        </div>
-
-        {/* Size */}
-        <div>
-          <label className="block font-medium mb-2">Size</label>
-          <div className="flex gap-3">
-            {["30", "32", "34", "36"].map((s) => (
-              <label key={s} className="flex items-center gap-1">
-                <input
-                  type="checkbox"
-                  checked={form.size.includes(s)}
-                  onChange={() => handleSizeChange(s)}
-                />
-                {s}
-              </label>
-            ))}
-          </div>
-        </div>
-
-        {/* Color */}
-        <div>
-          <label className="block font-medium mb-2">Color</label>
-          <input
-            name="color"
-            value={form.color}
-            onChange={handleChange}
-            className="w-full border p-2 rounded"
-            placeholder="e.g. black, blue"
-          />
         </div>
 
         {/* Images */}
