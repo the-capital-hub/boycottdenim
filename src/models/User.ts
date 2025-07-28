@@ -1,26 +1,27 @@
 // models/User.ts
 import mongoose from "mongoose";
 
-const UserSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-// <<<<<<< backend
-    trim: true,
-    minLength : 3
-// =======
-//     trim: true
-// >>>>>>> main
-  },
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-    lowercase: true
-  },
-  phone: {
-    type: String,
-    required: true,
+const UserSchema = new mongoose.Schema(
+	{
+		name: {
+			type: String,
+			required: true,
+			// <<<<<<< backend
+			trim: true,
+			minLength: 3,
+			// =======
+			//     trim: true
+			// >>>>>>> main
+		},
+		email: {
+			type: String,
+			required: true,
+			unique: true,
+			lowercase: true,
+		},
+		phone: {
+			type: String,
+			required: true,
 
     trim: true,
     validate: {
