@@ -9,18 +9,18 @@ import HomeBannerGrid from "@/Components/home-components/category";
 import React from "react";
 
 const Home = () => {
-  return (
-    <div className="hide-scrollbar-mobile">
-      <Navbar />
-      <HeroSection />
-      <ItsAboutBoycottSection />
-      <JeanType />
-      <HomeBannerGrid/>
-      <ShopMore />
-      <Testimonial />
-      <UnitedByDenim />
-    </div>
-  );
+	return (
+		<div className="hide-scrollbar-mobile hide-scrollbar">
+			<Navbar />
+			<HeroSection />
+			<ItsAboutBoycottSection />
+			<JeanType />
+			<HomeBannerGrid />
+			<ShopMore />
+			<Testimonial />
+			<UnitedByDenim />
+		</div>
+	);
 };
 
 export default Home;
