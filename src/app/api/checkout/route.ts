@@ -1,5 +1,5 @@
 import { type NextRequest, NextResponse } from "next/server";
-import Cart from "@/models/Cart";
+import { Cart } from "@/models/Cart";
 import { Product } from "@/models/Products";
 import { connectDB } from "@/lib/dbconnect";
 

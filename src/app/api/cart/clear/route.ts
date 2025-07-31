@@ -1,9 +1,12 @@
 import { type NextRequest, NextResponse } from "next/server";
-import Cart from "@/models/Cart";
+import { Cart } from "@/models/Cart";
 import { connectDB } from "@/lib/dbconnect";
+import type { ApiResponse } from "@/types";
 
 // DELETE - Clear user's cart
-export async function DELETE(request: NextRequest): Promise<NextResponse> {
+export async function DELETE(
+	request: NextRequest
+): Promise<NextResponse<ApiResponse>> {
 	try {
 		await connectDB();
 
@@ -12,7 +15,7 @@ export async function DELETE(request: NextRequest): Promise<NextResponse> {
 
 		if (!userId) {
 			return NextResponse.json(
-				{ error: "User ID is required" },
+				{ success: false, error: "User ID is required" },
 				{ status: 400 }
 			);
 		}
@@ -23,7 +26,7 @@ export async function DELETE(request: NextRequest): Promise<NextResponse> {
 	} catch (error) {
 		console.error("Error clearing cart:", error);
 		return NextResponse.json(
-			{ error: "Failed to clear cart" },
+			{ success: false, error: "Failed to clear cart" },
 			{ status: 500 }
 		);
 	}

@@ -10,11 +10,13 @@ import type {
 	DeliveryAddress,
 	OrderSummary,
 	OrderResponse,
+	CheckoutType,
+	ObjectId,
 } from "@/types";
 
 interface CheckoutState {
 	// State
-	checkoutType: "cart" | "buyNow";
+	checkoutType: CheckoutType;
 	buyNowProduct: Product | null;
 	buyNowQuantity: number;
 
@@ -33,7 +35,7 @@ interface CheckoutState {
 
 	// Actions
 	setCheckoutType: (
-		type: "cart" | "buyNow",
+		type: CheckoutType,
 		product?: Product | null,
 		quantity?: number
 	) => void;
@@ -45,7 +47,7 @@ interface CheckoutState {
 		product?: Product | null,
 		quantity?: number
 	) => void;
-	processOrder: (userId: string) => Promise<OrderResponse>;
+	processOrder: (userId: ObjectId) => Promise<OrderResponse>;
 	resetCheckout: () => void;
 	validateStep: (step: number) => boolean;
 }
@@ -77,6 +79,7 @@ export const useCheckoutStore = create<CheckoutState>()(
 				state: "",
 				zipCode: "",
 				country: "India",
+				fullAddress: "",
 			},
 
 			// Order Summary
@@ -93,7 +96,7 @@ export const useCheckoutStore = create<CheckoutState>()(
 
 			// Actions
 			setCheckoutType: (
-				type: "cart" | "buyNow",
+				type: CheckoutType,
 				product: Product | null = null,
 				quantity = 1
 			) => {
@@ -164,8 +167,8 @@ export const useCheckoutStore = create<CheckoutState>()(
 				});
 			},
 
-			// Process order (without payment gateway for now)
-			processOrder: async (userId: string): Promise<OrderResponse> => {
+			// Process order
+			processOrder: async (userId: ObjectId): Promise<OrderResponse> => {
 				const { customerInfo, deliveryAddress, orderSummary, checkoutType } =
 					get();
 

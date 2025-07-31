@@ -1,26 +1,18 @@
 import { type NextRequest, NextResponse } from "next/server";
-import Cart from "@/models/Cart";
+import { Cart } from "@/models/Cart";
 import { Product } from "@/models/Products";
 import { connectDB } from "@/lib/dbconnect";
-
-interface AddToCartRequest {
-	userId: string;
-	productId: string;
-	quantity?: number;
-	size?: string;
-	color?: string;
-}
-
-interface UpdateCartRequest {
-	userId: string;
-	productId: string;
-	quantity: number;
-	size?: string;
-	color?: string;
-}
+import type {
+	AddToCartInput,
+	UpdateCartInput,
+	ApiResponse,
+	PopulatedCart,
+} from "@/types";
 
 // GET - Fetch user's cart
-export async function GET(request: NextRequest): Promise<NextResponse> {
+export async function GET(
+	request: NextRequest
+): Promise<NextResponse<PopulatedCart | ApiResponse>> {
 	try {
 		await connectDB();
 
@@ -29,7 +21,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 
 		if (!userId) {
 			return NextResponse.json(
-				{ error: "User ID is required" },
+				{ success: false, error: "User ID is required" },
 				{ status: 400 }
 			);
 		}
@@ -37,21 +29,28 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 		const cart = await Cart.findOne({ userId }).populate("items.productId");
 
 		if (!cart) {
-			return NextResponse.json({ items: [] });
+			return NextResponse.json({
+				items: [],
+				userId,
+				createdAt: new Date(),
+				updatedAt: new Date(),
+			});
 		}
 
 		return NextResponse.json(cart);
 	} catch (error) {
 		console.error("Error fetching cart:", error);
 		return NextResponse.json(
-			{ error: "Failed to fetch cart" },
+			{ success: false, error: "Failed to fetch cart" },
 			{ status: 500 }
 		);
 	}
 }
 
 // POST - Add item to cart
-export async function POST(request: NextRequest): Promise<NextResponse> {
+export async function POST(
+	request: NextRequest
+): Promise<NextResponse<PopulatedCart | ApiResponse>> {
 	try {
 		await connectDB();
 
@@ -61,11 +60,11 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 			quantity = 1,
 			size,
 			color,
-		}: AddToCartRequest = await request.json();
+		}: AddToCartInput = await request.json();
 
 		if (!userId || !productId) {
 			return NextResponse.json(
-				{ error: "User ID and Product ID are required" },
+				{ success: false, error: "User ID and Product ID are required" },
 				{ status: 400 }
 			);
 		}
@@ -73,12 +72,15 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 		// Check if product exists and has sufficient stock
 		const product = await Product.findById(productId);
 		if (!product) {
-			return NextResponse.json({ error: "Product not found" }, { status: 404 });
+			return NextResponse.json(
+				{ success: false, error: "Product not found" },
+				{ status: 404 }
+			);
 		}
 
 		if (product.stock < quantity) {
 			return NextResponse.json(
-				{ error: "Insufficient stock" },
+				{ success: false, error: "Insufficient stock" },
 				{ status: 400 }
 			);
 		}
@@ -116,30 +118,35 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 	} catch (error) {
 		console.error("Error adding to cart:", error);
 		return NextResponse.json(
-			{ error: "Failed to add item to cart" },
+			{ success: false, error: "Failed to add item to cart" },
 			{ status: 500 }
 		);
 	}
 }
 
 // PUT - Update cart item quantity
-export async function PUT(request: NextRequest): Promise<NextResponse> {
+export async function PUT(
+	request: NextRequest
+): Promise<NextResponse<PopulatedCart | ApiResponse>> {
 	try {
 		await connectDB();
 
-		const { userId, productId, quantity, size, color }: UpdateCartRequest =
+		const { userId, productId, quantity, size, color }: UpdateCartInput =
 			await request.json();
 
 		if (!userId || !productId || quantity < 0) {
 			return NextResponse.json(
-				{ error: "Invalid request data" },
+				{ success: false, error: "Invalid request data" },
 				{ status: 400 }
 			);
 		}
 
 		const cart = await Cart.findOne({ userId });
 		if (!cart) {
-			return NextResponse.json({ error: "Cart not found" }, { status: 404 });
+			return NextResponse.json(
+				{ success: false, error: "Cart not found" },
+				{ status: 404 }
+			);
 		}
 
 		const itemIndex = cart.items.findIndex(
@@ -151,7 +158,7 @@ export async function PUT(request: NextRequest): Promise<NextResponse> {
 
 		if (itemIndex === -1) {
 			return NextResponse.json(
-				{ error: "Item not found in cart" },
+				{ success: false, error: "Item not found in cart" },
 				{ status: 404 }
 			);
 		}
@@ -169,14 +176,16 @@ export async function PUT(request: NextRequest): Promise<NextResponse> {
 	} catch (error) {
 		console.error("Error updating cart:", error);
 		return NextResponse.json(
-			{ error: "Failed to update cart" },
+			{ success: false, error: "Failed to update cart" },
 			{ status: 500 }
 		);
 	}
 }
 
 // DELETE - Remove item from cart
-export async function DELETE(request: NextRequest): Promise<NextResponse> {
+export async function DELETE(
+	request: NextRequest
+): Promise<NextResponse<PopulatedCart | ApiResponse>> {
 	try {
 		await connectDB();
 
@@ -188,14 +197,17 @@ export async function DELETE(request: NextRequest): Promise<NextResponse> {
 
 		if (!userId || !productId) {
 			return NextResponse.json(
-				{ error: "User ID and Product ID are required" },
+				{ success: false, error: "User ID and Product ID are required" },
 				{ status: 400 }
 			);
 		}
 
 		const cart = await Cart.findOne({ userId });
 		if (!cart) {
-			return NextResponse.json({ error: "Cart not found" }, { status: 404 });
+			return NextResponse.json(
+				{ success: false, error: "Cart not found" },
+				{ status: 404 }
+			);
 		}
 
 		cart.items = cart.items.filter(
@@ -214,7 +226,7 @@ export async function DELETE(request: NextRequest): Promise<NextResponse> {
 	} catch (error) {
 		console.error("Error removing from cart:", error);
 		return NextResponse.json(
-			{ error: "Failed to remove item from cart" },
+			{ success: false, error: "Failed to remove item from cart" },
 			{ status: 500 }
 		);
 	}
