@@ -3,48 +3,55 @@
 import { create } from "zustand";
 import { persist, subscribeWithSelector } from "zustand/middleware";
 import { toast } from "react-hot-toast";
-import type { CartItem, Product, CartTotals } from "@/types";
+import type {
+	CartItem,
+	Product,
+	CartTotals,
+	ObjectId,
+	PopulatedCart,
+	ApiResponse,
+} from "@/types";
 
 interface CartAPI {
-	fetchCart: (userId: string) => Promise<{ items: CartItem[] }>;
+	fetchCart: (userId: ObjectId) => Promise<PopulatedCart>;
 	addToCart: (
-		userId: string,
-		productId: string,
+		userId: ObjectId,
+		productId: ObjectId,
 		quantity?: number,
 		size?: string,
 		color?: string
-	) => Promise<{ items: CartItem[] }>;
+	) => Promise<PopulatedCart>;
 	updateQuantity: (
-		userId: string,
-		productId: string,
+		userId: ObjectId,
+		productId: ObjectId,
 		quantity: number,
 		size?: string,
 		color?: string
-	) => Promise<{ items: CartItem[] }>;
+	) => Promise<PopulatedCart>;
 	removeItem: (
-		userId: string,
-		productId: string,
+		userId: ObjectId,
+		productId: ObjectId,
 		size?: string,
 		color?: string
-	) => Promise<{ items: CartItem[] }>;
-	clearCart: (userId: string) => Promise<{ success: boolean; message: string }>;
+	) => Promise<PopulatedCart>;
+	clearCart: (userId: ObjectId) => Promise<ApiResponse>;
 }
 
 // Cart API functions
 const cartAPI: CartAPI = {
-	async fetchCart(userId: string) {
+	async fetchCart(userId: ObjectId): Promise<PopulatedCart> {
 		const response = await fetch(`/api/cart?userId=${userId}`);
 		if (!response.ok) throw new Error("Failed to fetch cart");
 		return response.json();
 	},
 
 	async addToCart(
-		userId: string,
-		productId: string,
+		userId: ObjectId,
+		productId: ObjectId,
 		quantity = 1,
 		size?: string,
 		color?: string
-	) {
+	): Promise<PopulatedCart> {
 		const response = await fetch("/api/cart", {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
@@ -58,12 +65,12 @@ const cartAPI: CartAPI = {
 	},
 
 	async updateQuantity(
-		userId: string,
-		productId: string,
+		userId: ObjectId,
+		productId: ObjectId,
 		quantity: number,
 		size?: string,
 		color?: string
-	) {
+	): Promise<PopulatedCart> {
 		const response = await fetch("/api/cart", {
 			method: "PUT",
 			headers: { "Content-Type": "application/json" },
@@ -77,11 +84,11 @@ const cartAPI: CartAPI = {
 	},
 
 	async removeItem(
-		userId: string,
-		productId: string,
+		userId: ObjectId,
+		productId: ObjectId,
 		size?: string,
 		color?: string
-	) {
+	): Promise<PopulatedCart> {
 		const params = new URLSearchParams({
 			userId,
 			productId,
@@ -98,7 +105,7 @@ const cartAPI: CartAPI = {
 		return response.json();
 	},
 
-	async clearCart(userId: string) {
+	async clearCart(userId: ObjectId): Promise<ApiResponse> {
 		const response = await fetch(`/api/cart/clear?userId=${userId}`, {
 			method: "DELETE",
 		});
@@ -115,11 +122,11 @@ interface CartState {
 	items: CartItem[];
 	isLoading: boolean;
 	isOpen: boolean;
-	userId: string;
+	userId: ObjectId;
 	totals: CartTotals;
 
 	// Actions
-	setUserId: (id: string) => void;
+	setUserId: (id: ObjectId) => void;
 	fetchCart: () => Promise<void>;
 	addItem: (
 		product: Product,
@@ -128,13 +135,13 @@ interface CartState {
 		color?: string
 	) => Promise<void>;
 	updateQuantity: (
-		productId: string,
+		productId: ObjectId,
 		quantity: number,
 		size?: string,
 		color?: string
 	) => Promise<void>;
 	removeItem: (
-		productId: string,
+		productId: ObjectId,
 		size?: string,
 		color?: string
 	) => Promise<void>;
@@ -148,12 +155,12 @@ interface CartState {
 
 	// Getters
 	getTotalItems: () => number;
-	getItemById: (productId: string) => CartItem | undefined;
-	isItemInCart: (productId: string) => boolean;
+	getItemById: (productId: ObjectId) => CartItem | undefined;
+	isItemInCart: (productId: ObjectId) => boolean;
 }
 
 interface CartPersistState {
-	userId: string;
+	userId: ObjectId;
 }
 
 export const useCartStore = create<CartState>()(
@@ -164,7 +171,7 @@ export const useCartStore = create<CartState>()(
 				items: [],
 				isLoading: false,
 				isOpen: false,
-				userId: "687e2ef351b622a5b26d78d5",
+				userId: "687e2ef351b622a5b26d78d5", // This should be set from auth context
 				totals: {
 					subtotal: 0,
 					shipping: 0,
@@ -172,7 +179,7 @@ export const useCartStore = create<CartState>()(
 				},
 
 				// Actions
-				setUserId: (id: string) => {
+				setUserId: (id: ObjectId) => {
 					set({ userId: id });
 					if (id) {
 						get().fetchCart();
@@ -181,7 +188,7 @@ export const useCartStore = create<CartState>()(
 
 				// Fetch cart from server
 				fetchCart: async () => {
-					const userId = "687e2ef351b622a5b26d78d5";
+					const { userId } = get();
 					if (!userId) return;
 
 					set({ isLoading: true });
@@ -190,6 +197,7 @@ export const useCartStore = create<CartState>()(
 						const items: CartItem[] =
 							data.items?.map((item) => ({
 								id: item.productId._id,
+								productId: item.productId._id,
 								product: item.productId,
 								quantity: item.quantity,
 								price: item.price,
@@ -214,7 +222,7 @@ export const useCartStore = create<CartState>()(
 					size?: string,
 					color?: string
 				) => {
-					const userId = "687e2ef351b622a5b26d78d5";
+					const { userId } = get();
 					if (!userId) {
 						toast.error("Please login to add items to cart");
 						return;
@@ -237,12 +245,12 @@ export const useCartStore = create<CartState>()(
 
 				// Update item quantity
 				updateQuantity: async (
-					productId: string,
+					productId: ObjectId,
 					quantity: number,
 					size?: string,
 					color?: string
 				) => {
-					const userId = "687e2ef351b622a5b26d78d5";
+					const { userId } = get();
 					if (!userId) return;
 
 					set({ isLoading: true });
@@ -269,11 +277,11 @@ export const useCartStore = create<CartState>()(
 
 				// Remove item from cart
 				removeItem: async (
-					productId: string,
+					productId: ObjectId,
 					size?: string,
 					color?: string
 				) => {
-					const userId = "687e2ef351b622a5b26d78d5";
+					const { userId } = get();
 					if (!userId) return;
 
 					try {
@@ -290,7 +298,7 @@ export const useCartStore = create<CartState>()(
 
 				// Clear entire cart
 				clearCart: async () => {
-					const userId = "687e2ef351b622a5b26d78d5";
+					const { userId } = get();
 					if (!userId) return;
 
 					try {
@@ -336,11 +344,11 @@ export const useCartStore = create<CartState>()(
 					return get().items.reduce((total, item) => total + item.quantity, 0);
 				},
 
-				getItemById: (productId: string) => {
+				getItemById: (productId: ObjectId) => {
 					return get().items.find((item) => item.productId === productId);
 				},
 
-				isItemInCart: (productId: string) => {
+				isItemInCart: (productId: ObjectId) => {
 					return get().items.some((item) => item.productId === productId);
 				},
 			}),

@@ -1,12 +1,33 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import { useCartStore } from "@/stores/cartStore";
 import { useCheckoutStore } from "@/stores/checkoutStore";
-import type { Product, CartItem } from "@/types";
+import { toast } from "react-hot-toast";
+import type { Product, CartItem, ObjectId } from "@/types";
 import type { JSX } from "react/jsx-runtime";
+
+// Product fetching function
+async function fetchProductById(productId: ObjectId): Promise<Product | null> {
+	try {
+		const response = await fetch(`/api/product/${productId}`);
+		const data = await response.json();
+
+		if (response.ok && data.success) {
+			return data.data;
+		} else {
+			console.error("Failed to fetch product:", data.error);
+			toast.error(data.error || "Failed to fetch product");
+			return null;
+		}
+	} catch (error) {
+		console.error("Error fetching product:", error);
+		toast.error("Failed to fetch product details");
+		return null;
+	}
+}
 
 export default function CheckoutPage(): JSX.Element {
 	const router = useRouter();
@@ -28,31 +49,74 @@ export default function CheckoutPage(): JSX.Element {
 		validateStep,
 	} = useCheckoutStore();
 
-	useEffect(() => {
-		// Check if this is a direct buy from URL params
-		const productId = searchParams.get("productId");
-		const quantity = searchParams.get("quantity");
+	const [isLoadingProduct, setIsLoadingProduct] = useState(false);
 
-		if (productId) {
-			// For direct buy, you would fetch the specific product details
-			// This is a simplified version
-			const mockProduct: Product = {
-				_id: productId,
-				name: "Light Grey Ankle Jeans",
-				description: "Comfortable ankle fit jeans",
-				price: 1299,
-				stock: 10,
-				images: ["/placeholder.svg?height=120&width=120"],
-				gender: "men",
-				categories: "ankle fit",
-			};
-			setCheckoutType("buyNow", mockProduct, Number.parseInt(quantity || "1"));
-			initializeCheckout([], mockProduct, Number.parseInt(quantity || "1"));
-		} else {
-			setCheckoutType("cart");
-			initializeCheckout(cartItems);
-		}
-	}, [searchParams, cartItems, setCheckoutType, initializeCheckout]);
+	useEffect(() => {
+		const initializeCheckoutData = async () => {
+			// Check if this is a direct buy from URL params
+			const productId = searchParams.get("productId");
+			const quantity = searchParams.get("quantity");
+			const size = searchParams.get("size");
+			const color = searchParams.get("color");
+
+			if (productId) {
+				// Direct buy flow - fetch product details
+				setIsLoadingProduct(true);
+				try {
+					const product = await fetchProductById(productId);
+					console.log("product", product);
+
+					if (product) {
+						const parsedQuantity = Number.parseInt(quantity || "1");
+
+						// Validate stock availability
+						if (product.stock < parsedQuantity) {
+							toast.error(`Only ${product.stock} items available in stock`);
+							// router.push("/Shop");
+							return;
+						}
+
+						setCheckoutType("buyNow", product, parsedQuantity);
+
+						// Create a cart item for direct buy with size and color
+						const directBuyItem: CartItem = {
+							id: product._id,
+							productId: product._id,
+							product: product,
+							quantity: parsedQuantity,
+							price: product.price,
+							size: size || undefined,
+							color: color || undefined,
+						};
+
+						initializeCheckout([directBuyItem], product, parsedQuantity);
+					} else {
+						// Product not found, redirect to products page
+						toast.error("Product not found");
+						// router.push("/Shop");
+					}
+				} catch (error) {
+					console.error("Error initializing direct buy:", error);
+					toast.error("Failed to load product details");
+					// router.push("/Shop");
+				} finally {
+					setIsLoadingProduct(false);
+				}
+			} else {
+				// Cart checkout flow
+				if (cartItems.length === 0) {
+					toast.error("Your cart is empty");
+					router.push("/cart");
+					return;
+				}
+
+				setCheckoutType("cart");
+				initializeCheckout(cartItems);
+			}
+		};
+
+		initializeCheckoutData();
+	}, [searchParams, cartItems, setCheckoutType, initializeCheckout, router]);
 
 	const handleCustomerInfoChange = (
 		field: keyof typeof customerInfo,
@@ -79,7 +143,7 @@ export default function CheckoutPage(): JSX.Element {
 	};
 
 	const handlePlaceOrder = async (): Promise<void> => {
-		const result = await processOrder("687e2ef351b622a5b26d78d5");
+		const result = await processOrder("687e2ef351b622a5b26d78d5"); // Replace with actual user ID from auth
 		if (result.success && result.orderId && result.orderNumber) {
 			router.push(
 				`/order-success?orderId=${result.orderId}&orderNumber=${result.orderNumber}`
@@ -87,6 +151,26 @@ export default function CheckoutPage(): JSX.Element {
 		}
 	};
 
+	// Loading state while fetching product
+	if (isLoadingProduct) {
+		return (
+			<div className="min-h-screen bg-gray-50 py-20">
+				<div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+					<div className="text-center">
+						<div className="animate-spin rounded-full h-12 w-12 border-b-2 border-yellow-400 mx-auto mb-4"></div>
+						<h1 className="text-2xl font-bold text-gray-900 mb-2">
+							Loading Product Details...
+						</h1>
+						<p className="text-gray-600">
+							Please wait while we fetch the product information.
+						</p>
+					</div>
+				</div>
+			</div>
+		);
+	}
+
+	// No items to checkout
 	if (orderSummary.items.length === 0) {
 		return (
 			<div className="min-h-screen bg-gray-50 py-20">
@@ -94,7 +178,28 @@ export default function CheckoutPage(): JSX.Element {
 					<div className="text-center">
 						<h1 className="text-3xl font-bold text-gray-900 mb-8">Checkout</h1>
 						<div className="bg-white rounded-lg shadow-sm p-12">
-							<p className="text-xl text-gray-500">No items to checkout</p>
+							<div className="text-gray-500 mb-6">
+								<svg
+									className="mx-auto h-24 w-24 mb-4"
+									fill="none"
+									stroke="currentColor"
+									viewBox="0 0 24 24"
+								>
+									<path
+										strokeLinecap="round"
+										strokeLinejoin="round"
+										strokeWidth={1}
+										d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
+									/>
+								</svg>
+								<p className="text-xl">No items to checkout</p>
+							</div>
+							<button
+								onClick={() => router.push("/products")}
+								className="inline-block bg-yellow-400 text-black px-8 py-3 rounded-md font-medium hover:bg-yellow-500 transition-colors"
+							>
+								Continue Shopping
+							</button>
 						</div>
 					</div>
 				</div>
@@ -108,11 +213,11 @@ export default function CheckoutPage(): JSX.Element {
 				<div className="mb-8">
 					<h1 className="text-3xl font-bold text-gray-900">
 						Checkout
-						{/* {checkoutType === "buyNow" && (
-							<span className="text-lg font-normal text-gray-600">
+						{checkoutType === "buyNow" && (
+							<span className="text-lg font-normal text-gray-600 ml-2">
 								(Direct Buy)
 							</span>
-						)} */}
+						)}
 					</h1>
 
 					{/* Progress Steps */}
@@ -166,6 +271,7 @@ export default function CheckoutPage(): JSX.Element {
 													handleCustomerInfoChange("fullName", e.target.value)
 												}
 												className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent text-black"
+												placeholder="Enter your full name"
 											/>
 										</div>
 
@@ -181,6 +287,7 @@ export default function CheckoutPage(): JSX.Element {
 													handleCustomerInfoChange("email", e.target.value)
 												}
 												className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent text-black"
+												placeholder="Enter your email address"
 											/>
 										</div>
 
@@ -196,6 +303,8 @@ export default function CheckoutPage(): JSX.Element {
 													handleCustomerInfoChange("phone", e.target.value)
 												}
 												className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent text-black"
+												placeholder="Enter your 10-digit phone number"
+												maxLength={10}
 											/>
 										</div>
 									</div>
@@ -221,6 +330,7 @@ export default function CheckoutPage(): JSX.Element {
 													handleAddressChange("address", e.target.value)
 												}
 												className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent text-black"
+												placeholder="Enter your complete address"
 											/>
 										</div>
 
@@ -237,6 +347,7 @@ export default function CheckoutPage(): JSX.Element {
 														handleAddressChange("city", e.target.value)
 													}
 													className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent text-black"
+													placeholder="Enter city"
 												/>
 											</div>
 
@@ -252,6 +363,7 @@ export default function CheckoutPage(): JSX.Element {
 														handleAddressChange("state", e.target.value)
 													}
 													className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent text-black"
+													placeholder="Enter state"
 												/>
 											</div>
 										</div>
@@ -269,6 +381,8 @@ export default function CheckoutPage(): JSX.Element {
 														handleAddressChange("zipCode", e.target.value)
 													}
 													className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent text-black"
+													placeholder="Enter 6-digit ZIP code"
+													maxLength={6}
 												/>
 											</div>
 
@@ -282,7 +396,7 @@ export default function CheckoutPage(): JSX.Element {
 													onChange={(e) =>
 														handleAddressChange("country", e.target.value)
 													}
-													className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+													className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent text-black"
 												>
 													<option value="India">India</option>
 													<option value="USA">USA</option>
@@ -306,10 +420,16 @@ export default function CheckoutPage(): JSX.Element {
 											<h3 className="font-medium text-gray-900 mb-2">
 												Customer Information
 											</h3>
-											<div className="text-sm text-gray-600">
-												<p>{customerInfo.fullName}</p>
-												<p>{customerInfo.email}</p>
-												<p>{customerInfo.phone}</p>
+											<div className="text-sm text-gray-600 bg-gray-50 p-3 rounded-md">
+												<p>
+													<strong>Name:</strong> {customerInfo.fullName}
+												</p>
+												<p>
+													<strong>Email:</strong> {customerInfo.email}
+												</p>
+												<p>
+													<strong>Phone:</strong> {customerInfo.phone}
+												</p>
 											</div>
 										</div>
 
@@ -317,7 +437,7 @@ export default function CheckoutPage(): JSX.Element {
 											<h3 className="font-medium text-gray-900 mb-2">
 												Delivery Address
 											</h3>
-											<div className="text-sm text-gray-600">
+											<div className="text-sm text-gray-600 bg-gray-50 p-3 rounded-md">
 												<p>{deliveryAddress.address}</p>
 												<p>
 													{deliveryAddress.city}, {deliveryAddress.state} -{" "}
@@ -331,10 +451,28 @@ export default function CheckoutPage(): JSX.Element {
 											<h3 className="font-medium text-gray-900 mb-2">
 												Payment Method
 											</h3>
-											<div className="text-sm text-gray-600">
-												<p>Cash on Delivery (COD)</p>
+											<div className="text-sm text-gray-600 bg-gray-50 p-3 rounded-md">
+												<p>💰 Cash on Delivery (COD)</p>
+												<p className="text-xs text-gray-500 mt-1">
+													Pay when your order is delivered to your doorstep
+												</p>
 											</div>
 										</div>
+
+										{checkoutType === "buyNow" && (
+											<div>
+												<h3 className="font-medium text-gray-900 mb-2">
+													Order Type
+												</h3>
+												<div className="text-sm text-gray-600 bg-blue-50 p-3 rounded-md border border-blue-200">
+													<p>🚀 Direct Buy - Express Checkout</p>
+													<p className="text-xs text-blue-600 mt-1">
+														This item will be processed immediately without
+														affecting your cart
+													</p>
+												</div>
+											</div>
+										)}
 									</div>
 								</div>
 							)}
@@ -390,7 +528,7 @@ export default function CheckoutPage(): JSX.Element {
 										>
 											<Image
 												src={
-													product?.images?.[0] ||
+													// product?.images?.[0] ||
 													"/placeholder.svg?height=60&width=60"
 												}
 												alt={product?.name || "Product"}
@@ -408,11 +546,19 @@ export default function CheckoutPage(): JSX.Element {
 													{item.size && ` • Size: ${item.size}`}
 													{item.color && ` • Color: ${item.color}`}
 												</div>
+												{product?.stock && product.stock < 10 && (
+													<div className="text-xs text-orange-600 mt-1">
+														Only {product.stock} left in stock
+													</div>
+												)}
 											</div>
 
 											<div className="text-right">
 												<div className="font-medium text-gray-900">
 													₹{(price * item.quantity).toLocaleString()}
+												</div>
+												<div className="text-xs text-gray-500">
+													₹{price.toLocaleString()} each
 												</div>
 											</div>
 										</div>
@@ -433,7 +579,7 @@ export default function CheckoutPage(): JSX.Element {
 									<span className="font-medium text-black">
 										{orderSummary.shipping === 0
 											? "Free"
-											: `₹${orderSummary.shipping}`}
+											: `₹${orderSummary.shipping.toLocaleString()}`}
 									</span>
 								</div>
 
@@ -450,6 +596,12 @@ export default function CheckoutPage(): JSX.Element {
 									<p className="text-sm text-green-800">
 										🎉 You qualify for free shipping!
 									</p>
+								</div>
+							)}
+
+							{checkoutType === "buyNow" && (
+								<div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-md">
+									<p className="text-sm text-blue-800">⚡ Express checkout</p>
 								</div>
 							)}
 						</div>
