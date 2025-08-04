@@ -2,10 +2,13 @@ import { NextRequest, NextResponse } from "next/server";
 import { Product } from "@/models/Products";
 
 
-export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
+export async function PATCH(
+  req: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
 
 
-  const productId = params.id;
+  const { id: productId } = await params;
   const body = await req.json();
 
   try {

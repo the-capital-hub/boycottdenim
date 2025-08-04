@@ -4,11 +4,11 @@ import { Product } from "@/models/Products";
 
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const { userId } = await req.json();
-    const { id: productId } = params;
+    const { id: productId } = await params;
 
     if (!userId) {
       return NextResponse.json({ message: "User ID is required" }, { status: 400 });
