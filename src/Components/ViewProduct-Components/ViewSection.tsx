@@ -13,7 +13,7 @@ import Image from "next/image";
 import { PT_Mono } from "next/font/google";
 import { useCartStore } from "@/stores/cartStore";
 import { useCheckoutStore } from "@/stores/checkoutStore";
-import type { Product } from "@/types";
+import type { Product, Category } from "@/types";
 
 const ptMono = PT_Mono({
 	weight: ["400"],
@@ -22,20 +22,20 @@ const ptMono = PT_Mono({
 });
 
 type ViewSectionProps = {
-	product: {
-		_id: string;
-		name: string;
-		price: number;
-		discount?: number;
-		image?: string;
-		description?: string;
-		color?: string;
-		size?: string[];
-		stock: number;
-		images: string[];
-		gender: "men" | "women";
-		categories: "ankle fit" | "slim fit" | "relaxed fit" | "straight fit";
-	};
+        product: {
+                _id: string;
+                name: string;
+                price: number;
+                discount?: number;
+                image?: string;
+                description?: string;
+                color?: string;
+                size?: string[];
+                stock: number;
+                images: string[];
+                gender: "men" | "women";
+                categories: Category;
+        };
 };
 
 const ViewSection: React.FC<ViewSectionProps> = ({ product }) => {
@@ -56,16 +56,19 @@ const ViewSection: React.FC<ViewSectionProps> = ({ product }) => {
 	const smallImages = [img1, img2, img3, img4];
 
 	// Convert the product to match our Product interface
-	const convertedProduct: Product = {
-		_id: product._id,
-		name: product.name,
-		description: product.description || "Premium quality product",
-		price: product.price,
-		stock: product.stock,
-		images: product.images,
-		gender: product.gender,
-		categories: product.categories,
-	};
+        const convertedProduct: Product = {
+                _id: product._id,
+                name: product.name,
+                description: product.description || "Premium quality product",
+                price: product.price,
+                stock: product.stock,
+                images: product.images,
+                gender: product.gender,
+                categories: product.categories,
+                favorites: [],
+                createdAt: new Date(),
+                updatedAt: new Date(),
+        };
 
 	// Handle Add to Cart functionality
 	const handleAddToCart = async () => {
