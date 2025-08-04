@@ -6,16 +6,17 @@ import { connectDB } from "@/lib/dbconnect";
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { productId: string } }
+  { params }: { params: { id: string } }
 ) {
   try {
-    const { productId } = params;
+    await connectDB();
+    const { id } = params;
 
-    if (!productId) {
+    if (!id) {
       return NextResponse.json({ message: "Product ID is required" }, { status: 400 });
     }
 
-    const product = await Product.findById(productId);
+    const product = await Product.findById(id);
 
     if (!product) {
       return NextResponse.json({ message: "Product not found" }, { status: 404 });
