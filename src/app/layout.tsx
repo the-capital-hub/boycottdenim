@@ -4,9 +4,9 @@ import "./globals.css";
 import Footer from "@/Components/Common/Footer";
 
 const ptMono = PT_Mono({
-  variable: "--font-pt-mono",
-  subsets: ["latin"],
-  weight: ["400"]
+	variable: "--font-pt-mono",
+	subsets: ["latin"],
+	weight: ["400"],
 });
 
 // export const metadata: Metadata = {
@@ -15,24 +15,19 @@ const ptMono = PT_Mono({
 // };
 
 export default function RootLayout({
-  children,
+	children,
 }: Readonly<{
-  children: React.ReactNode;
+	children: React.ReactNode;
 }>) {
-  return (
-    <html lang="en">
-      <body
-     >
-      <div className={`${ptMono.variable} antialiased z-10`} >
-      
-      </div>
-      <div>
-        {children}
-        </div>
-        <div>
-          <Footer/>
-        </div>
-      </body>
-    </html>
-  );
+	return (
+		<html lang="en">
+			<body>
+				<div className={`${ptMono.variable} antialiased z-10`}></div>
+				<div>{children}</div>
+				<div>
+					<Footer />
+				</div>
+			</body>
+		</html>
+	);
 }

@@ -1,5 +1,8 @@
+// src/app/api/product/[id]/getProductById/route.ts
+
 import { NextRequest, NextResponse } from "next/server";
 import { Product } from "@/models/Products";
+import { connectDB } from "@/lib/dbconnect";
 
 export async function GET(
   req: NextRequest,
@@ -24,3 +27,4 @@ export async function GET(
     return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
   }
 }
+
