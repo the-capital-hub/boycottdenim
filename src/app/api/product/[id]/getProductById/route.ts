@@ -1,16 +1,15 @@
-// src/app/api/product/[id]/getProductById/route.ts
-
 import { NextRequest, NextResponse } from "next/server";
 import { Product } from "@/models/Products";
 import { connectDB } from "@/lib/dbconnect";
+import type { NextApiRequest } from "next";
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } }
 ) {
   try {
     await connectDB();
-    const { id } = params;
+    const { id } = context.params;
 
     if (!id) {
       return NextResponse.json({ message: "Product ID is required" }, { status: 400 });
@@ -28,4 +27,3 @@ export async function GET(
     return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
   }
 }
-
