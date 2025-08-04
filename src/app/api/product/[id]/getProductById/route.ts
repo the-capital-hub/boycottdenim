@@ -1,15 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Product } from "@/models/Products";
 import { connectDB } from "@/lib/dbconnect";
-import type { NextApiRequest } from "next";
 
 export async function GET(
   req: NextRequest,
-  context: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     await connectDB();
-    const { id } = context.params;
+    const { id } = await params;
 
     if (!id) {
       return NextResponse.json({ message: "Product ID is required" }, { status: 400 });

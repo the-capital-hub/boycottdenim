@@ -4,20 +4,20 @@ import { connectDB } from "@/lib/dbconnect";
 import type { ApiResponse, Product as IProduct } from "@/types";
 
 interface RouteContext {
-	params: {
-		id: string;
-	};
+        params: Promise<{
+                id: string;
+        }>;
 }
 
 // GET - Fetch single product by ID
 export async function GET(
-	request: NextRequest,
-	context: RouteContext
+        request: NextRequest,
+        context: RouteContext
 ): Promise<NextResponse<ApiResponse<IProduct>>> {
-	try {
-		await connectDB();
+        try {
+                await connectDB();
 
-		const { id } = context.params;
+                const { id } = await context.params;
 
 		if (!id) {
 			return NextResponse.json(
