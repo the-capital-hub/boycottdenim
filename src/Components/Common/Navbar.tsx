@@ -10,6 +10,7 @@ import logo from "../../../public/boycott-logo.png";
 import search from "../../../public/Cart.svg";
 import cart from "../../../public/bag.svg";
 import user from "../../../public/user.svg";
+import { useAdmin } from "../../../hooks/useAdmin";
 
 const ptMono = PT_Mono({
   weight: ["400"],
@@ -17,13 +18,7 @@ const ptMono = PT_Mono({
   display: "swap",
 });
 
-const NavLinks = [
-  { name: "Home", href: "/" },
-  { name: "Shop", href: "/Shop" },
-  { name: "Genz", href: "/GenZ" },
-  { name: "About Us", href: "/AboutUs" },
-  { name: "Contact Us", href: "/ContactUs" },
-];
+
 
 const Navbar = ({ isDark = true }: { isDark?: boolean }) => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -32,6 +27,18 @@ const Navbar = ({ isDark = true }: { isDark?: boolean }) => {
   const searchContainerRef = useRef<HTMLDivElement | null>(null);
   const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const pathname = usePathname();
+
+  const {isAdmin, loading} = useAdmin();
+
+const NavLinks = [
+  { name: "Home", href: "/" },
+  { name: "Shop", href: "/Shop" },
+  { name: "Genz", href: "/GenZ" },
+  { name: "About Us", href: "/AboutUs" },
+  { name: "Contact Us", href: "/ContactUs" },
+  { name: "Admin", href: "/AdminDashBoard" },
+  ...(isAdmin ? [{ name: "Add Product", href: "/AdminAddProduct" }] : [])
+];
 
   const hoverText = isDark ? "hover:text-gray-200" : "hover:text-gray-800";
   const borderColor = isDark ? "border-gray-600" : "border-gray-400";
