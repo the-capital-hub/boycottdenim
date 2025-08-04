@@ -1,25 +1,26 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Product } from "@/models/Products";
 
+export async function GET(
+  req: NextRequest,
+  { params }: { params: { productId: string } }
+) {
+  try {
+    const { productId } = params;
 
-export async function GET( req : NextRequest, {params} : { params : { productId : String }}) {
-    try{
-        const { productId } = params
+    if (!productId) {
+      return NextResponse.json({ message: "Product ID is required" }, { status: 400 });
+    }
 
-        if( !productId ){
-            return NextResponse.json({ message: "Product ID is required" }, { status: 400 });
-        }
+    const product = await Product.findById(productId);
 
-        const product = await Product.findById(productId)
+    if (!product) {
+      return NextResponse.json({ message: "Product not found" }, { status: 404 });
+    }
 
-        if (!product) {
-            return NextResponse.json({ message: "Product not found" }, { status: 404 });
-        }
-
-        return NextResponse.json({product}, { status: 201 })
-    }catch (error) {
-        console.error("Error finding product:", error);
-        return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
-      }
-    
+    return NextResponse.json({ product }, { status: 200 });
+  } catch (error) {
+    console.error("Error finding product:", error);
+    return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
+  }
 }
