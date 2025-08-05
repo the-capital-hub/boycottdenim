@@ -4,69 +4,96 @@ import Sidebar from "../Sidebar/Sidebar";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-// Define OrderStatus type
-type OrderStatus = "Completed" | "In Progress" | "Pending";
-
-// Define order structure with types
-interface Order {
-  id: string;
-  product: string;
+interface Product {
+  id: number;
+  name: string;
   category: string;
-  qty: number;
-  date: string;
-  revenue: number;
-  profit: number;
-  status: OrderStatus;
+  image: string;
+  sellerId: string;
+  price: number;
+  payment: "Success" | "Failed";
 }
 
-const orders: Order[] = [
+const products: Product[] = [
   {
-    id: "#5302002",
-    product: "Ankle Fit",
+    id: 1,
+    name: "Ankle Fit",
     category: "Pants",
-    qty: 2,
-    date: "June 2, 2025",
-    revenue: 253.82,
-    profit: 60.76,
-    status: "Completed",
+    image: "/products/ankle.jpg",
+    sellerId: "098980",
+    price: 5000,
+    payment: "Success",
   },
   {
-    id: "#5302003",
-    product: "Slim Fit",
-    category: "Shirt",
-    qty: 1,
-    date: "June 15, 2025",
-    revenue: 45.5,
-    profit: 45.5,
-    status: "In Progress",
+    id: 2,
+    name: "Slim Fit",
+    category: "Jeans",
+    image: "/products/slim.jpg",
+    sellerId: "098981",
+    price: 3500,
+    payment: "Success",
   },
   {
-    id: "#5302004",
-    product: "Regular Fit",
+    id: 3,
+    name: "Regular Fit",
     category: "Shorts",
-    qty: 3,
-    date: "June 20, 2025",
-    revenue: 96.0,
-    profit: 32.0,
-    status: "Pending",
+    image: "/products/regular.jpg",
+    sellerId: "098982",
+    price: 2200,
+    payment: "Success",
+  },
+  {
+    id: 4,
+    name: "Bootcut Fit",
+    category: "Trousers",
+    image: "/products/bootcut.jpg",
+    sellerId: "098983",
+    price: 4000,
+    payment: "Success",
+  },
+  {
+    id: 5,
+    name: "Baggy Fit",
+    category: "Cargo Pants",
+    image: "/products/baggy.jpg",
+    sellerId: "098984",
+    price: 3000,
+    payment: "Success",
+  },
+  {
+    id: 6,
+    name: "Wide Leg",
+    category: "Palazzo Pants",
+    image: "/products/wide.jpg",
+    sellerId: "098985",
+    price: 4500,
+    payment: "Success",
+  },
+  {
+    id: 7,
+    name: "Tapered Fit",
+    category: "Chinos",
+    image: "/products/tapered.jpg",
+    sellerId: "098986",
+    price: 3800,
+    payment: "Success",
   },
 ];
 
-const statusColors: Record<OrderStatus, string> = {
-  Completed: "text-green-600",
-  "In Progress": "text-orange-500",
-  Pending: "text-red-500",
-};
-
 export default function OrderList() {
-
   const pathname = usePathname();
+  const [selected, setSelected] = useState<number[]>([]);
+
+  const toggleSelect = (id: number) => {
+    setSelected((prev) =>
+      prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]
+    );
+  };
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex min-h-screen overflow-hidden">
       <Sidebar />
-      <div className="flex-1 p-6 bg-[#f9f9fb]">
-        {/* Top bar with search, notifications, mail, avatar */}
+      <div className="flex-1 p-6 bg-[#f9f9fb] overflow-y-auto">
         <div className="flex justify-between items-center mb-6">
           <div className="relative w-full max-w-xs mx-2">
             <input
@@ -81,12 +108,10 @@ export default function OrderList() {
               <span className="material-symbols-outlined text-[24px] text-gray-700">notifications</span>
               <span className="absolute top-1 right-1 w-2.5 h-2.5 bg-red-500 rounded-full ring-2 ring-white"></span>
             </div>
-
             <div className="relative mx-2">
               <span className="material-symbols-outlined text-gray-500">mail</span>
               <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full"></span>
             </div>
-
             <div className="w-8 h-8 ml-2 rounded-full overflow-hidden">
               <img
                 src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3MzkyNDZ8MHwxfHNlYXJjaHwxfHxwcm9maWxlfGVufDB8fHx8MTc1NDA3MjY5M3ww&ixlib=rb-4.1.0&q=80&w=1080"
@@ -106,7 +131,6 @@ export default function OrderList() {
           </Link>
         </div>
 
-        {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
           {/* Total Sales */}
           <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
@@ -198,10 +222,10 @@ export default function OrderList() {
           </div>
         </div>
 
-        {/* Order Table */}
-        <div className="bg-white rounded-xl shadow-md p-6 space-y-6">
-          <div className="flex justify-between items-center">
-            <h1 className="text-2xl font-bold">Orders</h1>
+        {/* Product List Table */}
+        <div className="bg-white rounded-xl shadow-sm p-6">
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-xl font-bold">Product List</h2>
             <button className="text-sm text-gray-500 hover:text-black">More →</button>
           </div>
 
@@ -209,39 +233,53 @@ export default function OrderList() {
             <table className="min-w-full text-sm text-left">
               <thead className="bg-gray-100 text-gray-700 font-medium">
                 <tr>
-                  <th className="p-4">Order ID</th>
-                  <th className="p-4">Products</th>
-                  <th className="p-4">Qty</th>
-                  <th className="p-4">Date</th>
-                  <th className="p-4">Revenue</th>
-                  <th className="p-4">Net Profit</th>
-                  <th className="p-4">Status</th>
-                  <th className="p-4">Actions</th>
+                  <th className="p-4"></th>
+                  <th className="p-4">Product</th>
+                  <th className="p-4">Seller ID</th>
+                  <th className="p-4">Price</th>
+                  <th className="p-4">Payment</th>
+                  <th className="p-4">Action</th>
                 </tr>
               </thead>
               <tbody className="divide-y">
-                {orders.map((order, i) => (
-                  <tr key={i} className="hover:bg-gray-50">
-                    <td className="p-4 text-indigo-600 font-medium">{order.id}</td>
+                {products.map((product) => (
+                  <tr key={product.id} className="hover:bg-gray-50">
                     <td className="p-4">
-                      <div className="font-semibold">{order.product}</div>
-                      <div className="text-xs text-gray-500">{order.category}</div>
+                      <input
+                        type="checkbox"
+                        checked={selected.includes(product.id)}
+                        onChange={() => toggleSelect(product.id)}
+                        className="w-4 h-4"
+                      />
                     </td>
-                    <td className="p-4">{order.qty}</td>
-                    <td className="p-4">{order.date}</td>
-                    <td className="p-4">${order.revenue.toFixed(2)}</td>
-                    <td className="p-4">${order.profit.toFixed(2)}</td>
-                    <td className={`p-4 font-medium ${statusColors[order.status]}`}>{order.status}</td>
-                    <td className="p-4 space-x-3">
-                      <button className="text-indigo-500 hover:underline">
-                        <span className="material-symbols-outlined">edit</span>
-                      </button>
-                      <button className="text-red-500 hover:underline">
-                        <span className="material-symbols-outlined">delete</span>
-                      </button>
-                      <button className="text-gray-500 hover:underline">
-                        <span className="material-symbols-outlined">more_vert</span>
-                      </button>
+                    <td className="p-4 flex items-center gap-4">
+                      <img
+                        src={product.image}
+                        alt={product.name}
+                        className="w-12 h-16 rounded-lg object-cover"
+                      />
+                      <div>
+                        <div className="font-semibold">{product.name}</div>
+                        <div className="text-gray-500 text-sm">{product.category}</div>
+                      </div>
+                    </td>
+                    <td className="p-4">
+                      <span className="bg-gray-200 px-3 py-1 rounded-full text-xs font-medium">
+                        ID {product.sellerId}
+                      </span>
+                    </td>
+                    <td className="p-4 font-semibold text-indigo-600">
+                      ₹ {product.price.toLocaleString()}
+                    </td>
+                    <td className="p-4">
+                      <span className="bg-green-100 text-green-600 text-xs px-2 py-1 rounded-full">
+                        {product.payment}
+                      </span>
+                    </td>
+                    <td className="p-4 flex items-center gap-4">
+                      <button className="text-red-500 font-semibold hover:underline">Reject</button>
+                      <button className="text-green-600 font-semibold hover:underline">Approve</button>
+                      <button className="text-gray-600 font-semibold hover:underline">Put it on hold</button>
                     </td>
                   </tr>
                 ))}

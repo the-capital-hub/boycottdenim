@@ -1,6 +1,8 @@
 "use client";
 
 import React from "react";
+import Boy from '../../../public/boycott-logo.png'
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Home, ShoppingBag, Users, CreditCard, Settings, HelpCircle } from "lucide-react";
 
@@ -19,8 +21,8 @@ const Sidebar = () => {
   return (
     <div className="w-[250px] h-screen bg-white shadow-sm flex flex-col justify-between p-5 border-r border-gray-200">
       {/* Logo */}
-      <div className="text-center mb-6">
-        <img src="/logo.png" alt="Logo" className="mx-auto h-10 object-contain" />
+      <div className="text-center">
+        <Image src={Boy} alt="BoyCott Denim" className="mx-auto h-10 object-contain" />
       </div>
 
       {/* Menu */}

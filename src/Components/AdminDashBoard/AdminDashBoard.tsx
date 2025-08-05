@@ -10,135 +10,7 @@ export const AdminDashBoard = () => {
             <div className="bg-white min-h screen p-6">
                 
                 {/* Header */}
-                <div className="flex justify-between items-center mb-6">
-                    <div className="flex items-center">
-                        <span className="text-sm font-medium">Search</span>
-                    </div>
-                    <div className="flex items-center">
-                        <div className="relative mx-2">
-                            <span className="material-symbols-outlined text-gray-500">search</span>
-                        </div>
-                        <div className="relative mx-2">
-                            <span className="material-symbols-outlined text-gray-500">notifications</span>
-                            <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full"></span>
-                        </div>
-                        <div className="relative mx-2">
-                            <span className="material-symbols-outlined text-gray-500">mail</span>
-                            <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full"></span>
-                        </div>
-                        <div className="w-8 h-8 ml-2 rounded-full overflow-hidden">
-                            <img
-                                src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3MzkyNDZ8MHwxfHNlYXJjaHwxfHxwcm9maWxlfGVufDB8fHx8MTc1NDA3MjY5M3ww&ixlib=rb-4.1.0&q=80&w=1080"
-                                alt="Profile"
-                                className="w-full h-full object-cover"
-                            />
-                        </div>
-                    </div>
-                </div>
-
-                {/* Stats Cards */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-                    <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
-                        <div className="flex justify-between mb-2">
-                            <span className="text-sm text-gray-500">Total Sales</span>
-                            <div className="w-6 h-6 bg-green-50 rounded-md flex items-center justify-center">
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="h-4 w-4 text-green-500"
-                                    viewBox="0 0 20 20"
-                                    fill="currentColor"
-                                >
-                                    <path
-                                        fillRule="evenodd"
-                                        d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z"
-                                        clipRule="evenodd"
-                                    />
-                                </svg>
-                            </div>
-                        </div>
-                        <div className="mb-2">
-                            <h3 className="text-2xl font-bold">₹ 89,000</h3>
-                        </div>
-                        <div className="flex items-center">
-                            <span className="text-xs text-red-500 font-medium">↓ 4.3% Down from yesterday</span>
-                        </div>
-                    </div>
-
-                    <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
-                        <div className="flex justify-between mb-2">
-                            <span className="text-sm text-gray-500">Active Users</span>
-                            <div className="w-6 h-6 bg-purple-50 rounded-md flex items-center justify-center">
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="h-4 w-4 text-purple-500"
-                                    viewBox="0 0 20 20"
-                                    fill="currentColor"
-                                >
-                                    <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
-                                </svg>
-                            </div>
-                        </div>
-                        <div className="mb-2">
-                            <h3 className="text-2xl font-bold">68,192</h3>
-                        </div>
-                        <div className="flex items-center">
-                            <span className="text-xs text-green-500 font-medium">↑ 8.5% Up from yesterday</span>
-                        </div>
-                    </div>
-
-                    <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
-                        <div className="flex justify-between mb-2">
-                            <span className="text-sm text-gray-500">Total Orders</span>
-                            <div className="w-6 h-6 bg-yellow-50 rounded-md flex items-center justify-center">
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="h-4 w-4 text-yellow-500"
-                                    viewBox="0 0 20 20"
-                                    fill="currentColor"
-                                >
-                                    <path d="M4 3a2 2 0 100 4h12a2 2 0 100-4H4z" />
-                                    <path
-                                        fillRule="evenodd"
-                                        d="M3 8h14v7a2 2 0 01-2 2H5a2 2 0 01-2-2V8zm5 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z"
-                                        clipRule="evenodd"
-                                    />
-                                </svg>
-                            </div>
-                        </div>
-                        <div className="mb-2">
-                            <h3 className="text-2xl font-bold">10293</h3>
-                        </div>
-                        <div className="flex items-center">
-                            <span className="text-xs text-green-500 font-medium">↑ 1.7% Up from past week</span>
-                        </div>
-                    </div>
-
-                    <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
-                        <div className="flex justify-between mb-2">
-                            <span className="text-sm text-gray-500">Total Pending</span>
-                            <div className="w-6 h-6 bg-red-50 rounded-md flex items-center justify-center">
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="h-4 w-4 text-red-500"
-                                    viewBox="0 0 20 20"
-                                    fill="currentColor"
-                                >
-                                    <path
-                                        fillRule="evenodd"
-                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
-                                        clipRule="evenodd"
-                                    />
-                                </svg>
-                            </div>
-                        </div>
-                        <div className="mb-2">
-                            <h3 className="text-2xl font-bold">2040</h3>
-                        </div>
-                        <div className="flex items-center">
-                            <span className="text-xs text-green-500 font-medium">↑ 2.6% Up from yesterday</span>
-                        </div>
-                    </div>
-                </div>
+               
 
                 {/* Sales Details */}
                 <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100 mb-6">
@@ -184,9 +56,9 @@ export const AdminDashBoard = () => {
                     <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
                         <div className="flex justify-between items-center mb-4">
                             <h2 className="text-lg font-semibold">Revenue</h2>
-                            <div className="flex space-x-1">
+                            {/* <div className="flex space-x-1">
                                 <span className="material-symbols-outlined text-gray-400 text-lg">more_horiz</span>
-                            </div>
+                            </div> */}
                         </div>
                         <div className="mb-6">
                             <h3 className="text-2xl font-bold mb-6">$112,340</h3>
@@ -265,9 +137,9 @@ export const AdminDashBoard = () => {
                     <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
                         <div className="flex justify-between items-center mb-4">
                             <h2 className="text-lg font-semibold">Customers</h2>
-                            <div className="flex space-x-1">
+                            {/* <div className="flex space-x-1">
                                 <span className="material-symbols-outlined text-gray-400 text-lg">more_horiz</span>
-                            </div>
+                            </div> */}
                         </div>
                         <div className="text-xs text-gray-500 mb-4">Customer retention and acquisition statistics</div>
                         <div className="flex items-center justify-center mb-4">
@@ -282,7 +154,7 @@ export const AdminDashBoard = () => {
                                 <div className="flex items-center">
                                     <div className="w-6 h-6 bg-purple-100 rounded-full flex items-center justify-center mr-2">
                                         <span className="material-symbols-outlined text-purple-500 text-sm">
-                                            arrow_upward
+                                        ↑
                                         </span>
                                     </div>
                                     <div>
@@ -293,7 +165,7 @@ export const AdminDashBoard = () => {
                                 <div className="flex items-center">
                                     <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center mr-2">
                                         <span className="material-symbols-outlined text-green-500 text-sm">
-                                            arrow_upward
+                                        ↑
                                         </span>
                                     </div>
                                     <div>
@@ -346,7 +218,7 @@ export const AdminDashBoard = () => {
                             <h2 className="text-lg font-semibold">Top Sellers</h2>
                             <div className="flex items-center space-x-4">
                                 <span className="text-sm text-gray-500">Paid</span>
-                                <span className="material-symbols-outlined text-gray-400">more_horiz</span>
+                                {/* <span className="material-symbols-outlined text-gray-400">more_horiz</span> */}
                             </div>
                         </div>
                         {[1, 2, 3, 4, 5].map((i) => (
@@ -379,7 +251,7 @@ export const AdminDashBoard = () => {
                         <h2 className="text-lg font-semibold">Total Seller's</h2>
                         <div className="flex items-center">
                             <span className="text-sm text-gray-600 px-3 py-1 bg-gray-100 rounded-md">All Time</span>
-                            <span className="material-symbols-outlined text-gray-400 ml-1">expand_more</span>
+                            {/* <span className="material-symbols-outlined text-gray-400 ml-1">expand_more</span> */}
                         </div>
                     </div>
                     <div className="mb-2">
