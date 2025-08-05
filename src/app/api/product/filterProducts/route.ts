@@ -21,10 +21,10 @@ export async function GET(req: NextRequest) {
     if (color) filter.color = color;
     if (size) filter.size = size;
 
-    console.log("FILTER:", filter);
+    // console.log("FILTER:", filter);
 
     const products = await Product.find(filter).skip(skip).limit(limit);
-    console.log("PRODUCTS FOUND:", products.length);
+    // console.log("PRODUCTS FOUND:", products.length);
 
     const total = await Product.countDocuments(filter);
 

@@ -29,7 +29,7 @@ export interface OrderDocument
 const OrderProductSchema = new Schema<OrderProduct>(
 	{
 		productId: {
-			type: mongoose.Schema.Types.ObjectId,
+			type: mongoose.Schema.Types.ObjectId as unknown as StringConstructor,
 			ref: "Product",
 			required: [true, "Product ID is required"],
 		},
@@ -236,7 +236,7 @@ const OrderSchema = new Schema<OrderDocument>(
 	{
 		timestamps: true,
 		toJSON: {
-			transform: (doc, ret) => {
+			transform: (doc, ret: any) => {
 				ret._id = ret._id.toString();
 				ret.userId = ret.userId.toString();
 				ret.products = ret.products.map((product: any) => ({

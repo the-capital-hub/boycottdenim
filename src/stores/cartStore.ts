@@ -194,16 +194,15 @@ export const useCartStore = create<CartState>()(
 					set({ isLoading: true });
 					try {
 						const data = await cartAPI.fetchCart(userId);
-						const items: CartItem[] =
-							data.items?.map((item) => ({
-								id: item.productId._id,
-								productId: item.productId._id,
-								product: item.productId,
-								quantity: item.quantity,
-								price: item.price,
-								size: item.size,
-								color: item.color,
-							})) || [];
+						const items = (data.items || []).map((item): CartItem => ({
+							id: (item.productId as unknown as Product)._id,
+							productId: (item.productId as unknown as Product)._id,
+							product: item.productId as unknown as Product,
+							quantity: item.quantity,
+							price: item.price,
+							size: item.size,
+							color: item.color,
+						  })) || [];
 
 						set({ items });
 						get().calculateTotals();
