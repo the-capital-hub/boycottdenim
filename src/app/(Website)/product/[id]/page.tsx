@@ -26,7 +26,7 @@ const Page = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const res = await fetch(`/api/product/${id}/getProductById`);
+        const res = await fetch(`/api/product/getProductById/${id}`);
         const data = await res.json();
         setProduct(data.product);
       } catch (error) {
