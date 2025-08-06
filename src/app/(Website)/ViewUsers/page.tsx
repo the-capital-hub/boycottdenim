@@ -1,11 +1,11 @@
-import Navbar2 from "@/Components/Common/Navbar 2";
-import UserTableClient from "@/Components/ViewUsers/viewUsers";
+// import Navbar2 from "@/Components/Common/Navbar 2";
+import SellerSection from "@/Components/ViewUsers/SellerSection";
 
 const page = () => {
     return(
         <div>
-            <Navbar2/>
-            <UserTableClient/>
+            
+            <SellerSection/>
         </div>
     )
 }

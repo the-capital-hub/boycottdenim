@@ -43,6 +43,7 @@ const NavLinks = [
   { name: "Genz", href: "/GenZ" },
   { name: "About Us", href: "/AboutUs" },
   { name: "Contact Us", href: "/ContactUs" },
+  { name: "Admin", href: "/AdminDashBoard" },
   ...(isAdmin ? [{ name: "Add Product", href: "/AdminAddProduct" }] : [])
 ];
 
