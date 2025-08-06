@@ -3,6 +3,7 @@
 import { create } from "zustand";
 import { persist, subscribeWithSelector } from "zustand/middleware";
 import { toast } from "react-hot-toast";
+ 
 import type {
 	CartItem,
 	Product,
@@ -196,8 +197,8 @@ export const useCartStore = create<CartState>()(
 						const data = await cartAPI.fetchCart(userId);
 						const items: CartItem[] =
 							data.items?.map((item) => ({
-								id: item.productId._id,
-								productId: item.productId._id,
+								id: item.productId,
+								productId: item.productId,
 								product: item.productId,
 								quantity: item.quantity,
 								price: item.price,
