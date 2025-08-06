@@ -13,10 +13,9 @@ export interface Product {
   price: number;
   discount?: number;
   image?: string;
-  // Add other properties as needed based on your API response
 }
 
-const ShopContent = () => { // Create a separate component for the shop content that uses useSearchParams
+const ShopContent = () => { 
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
