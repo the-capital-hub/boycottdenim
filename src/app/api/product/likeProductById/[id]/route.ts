@@ -4,14 +4,18 @@ import { connectDB } from "@/lib/dbconnect"; // Assuming you need this connectio
 
 export async function PATCH(
   req: NextRequest,
+
   { params }: { params: Promise<{ productId: string }> } // params is now a Promise
+
 ) {
   await connectDB(); // Connect to the database if not already connected
 
   try {
+
     const { userId } = await req.json(); // Safely parse the request body
 
     const { productId } = await params; // Await params to access productId
+
 
     if (!userId) {
       return NextResponse.json({ message: "User ID is required" }, { status: 400 });

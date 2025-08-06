@@ -7,9 +7,10 @@ import TopTrends from "@/Components/ViewProduct-Components/TopTrends";
 import ViewSection from "@/Components/ViewProduct-Components/ViewSection";
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import type { Category } from "@/types";
 
 export interface Product {
-  _id?: string;
+  _id: string;
   name: string;
   price: number;
   discount?: number;
@@ -17,6 +18,10 @@ export interface Product {
   description?: string;
   color?: string;
   size?: string[];
+  stock: number;
+  images: string[];
+  gender: "men" | "women";
+  categories: Category;
 }
 
 const Page = () => {

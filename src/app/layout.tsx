@@ -4,9 +4,9 @@ import Footer from "@/Components/Common/Footer";
 import type { Metadata } from "next";
 
 const ptMono = PT_Mono({
-  variable: "--font-pt-mono",
-  subsets: ["latin"],
-  weight: ["400"]
+	variable: "--font-pt-mono",
+	subsets: ["latin"],
+	weight: ["400"],
 });
 
 export const metadata: Metadata = {
@@ -15,10 +15,11 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({
-  children,
+	children,
 }: Readonly<{
-  children: React.ReactNode;
+	children: React.ReactNode;
 }>) {
+
   return (
     <html lang="en">
       <head>
@@ -35,5 +36,5 @@ export default function RootLayout({
         </div>
       </body>
     </html>
-  );
+  )
 }
