@@ -1,6 +1,7 @@
 // ==================== BASE TYPES ====================
+import type { Types } from "mongoose";
 
-export type ObjectId = string;
+export type ObjectId = string | Types.ObjectId;
 
 // User Types
 export interface User {
@@ -170,7 +171,7 @@ export interface CheckoutSession {
 
 // ==================== API RESPONSE TYPES ====================
 
-export interface ApiResponse<T = any> {
+export interface ApiResponse<T = unknown> {
 	success: boolean;
 	data?: T;
 	error?: string;

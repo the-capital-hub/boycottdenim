@@ -1,4 +1,4 @@
-import mongoose, { Schema, type Document } from "mongoose";
+import mongoose, { Schema, type Document, Types } from "mongoose";
 import type {
 	Order as IOrder,
 	OrderProduct,
@@ -235,17 +235,17 @@ const OrderSchema = new Schema<OrderDocument>(
 	},
 	{
 		timestamps: true,
-		toJSON: {
-			transform: (doc, ret) => {
-				ret._id = ret._id.toString();
-				ret.userId = ret.userId.toString();
-				ret.products = ret.products.map((product: any) => ({
-					...product,
-					productId: product.productId.toString(),
-				}));
-				return ret;
-			},
-		},
+                toJSON: {
+                        transform: (doc, ret: Record<string, unknown>) => {
+                                ret._id = (ret._id as Types.ObjectId).toString();
+                                ret.userId = (ret.userId as Types.ObjectId).toString();
+                                ret.products = (ret.products as Array<Record<string, unknown>>).map((product) => ({
+                                        ...product,
+                                        productId: (product.productId as Types.ObjectId).toString(),
+                                }));
+                                return ret;
+                        },
+                },
 	}
 );
 
