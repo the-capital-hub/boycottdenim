@@ -90,12 +90,12 @@ const cartAPI: CartAPI = {
 		size?: string,
 		color?: string
 	): Promise<PopulatedCart> {
-		const params = new URLSearchParams({
-			userId,
-			productId,
-			...(size && { size }),
-			...(color && { color }),
-		});
+                const params = new URLSearchParams({
+                        userId: userId.toString(),
+                        productId: productId.toString(),
+                        ...(size && { size }),
+                        ...(color && { color }),
+                });
 		const response = await fetch(`/api/cart?${params}`, {
 			method: "DELETE",
 		});
@@ -195,16 +195,16 @@ export const useCartStore = create<CartState>()(
 					set({ isLoading: true });
 					try {
 						const data = await cartAPI.fetchCart(userId);
-						const items: CartItem[] =
-							data.items?.map((item) => ({
-								id: item.productId,
-								productId: item.productId,
-								product: item.productId,
-								quantity: item.quantity,
-								price: item.price,
-								size: item.size,
-								color: item.color,
-							})) || [];
+                                                const items: CartItem[] =
+                                                        data.items?.map((item) => ({
+                                                                id: item.productId,
+                                                                productId: item.productId,
+                                                                product: item.product,
+                                                                quantity: item.quantity,
+                                                                price: item.price,
+                                                                size: item.size,
+                                                                color: item.color,
+                                                        })) || [];
 
 						set({ items });
 						get().calculateTotals();

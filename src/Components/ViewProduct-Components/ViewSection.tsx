@@ -112,12 +112,12 @@ const ViewSection: React.FC<ViewSectionProps> = ({ product }) => {
 			initializeCheckout([directBuyItem], convertedProduct, quantity);
 
 			// Navigate to checkout page with product details
-			const searchParams = new URLSearchParams({
-				productId: convertedProduct._id,
-				quantity: quantity.toString(),
-				size: sizeString,
-				color: selectedColor,
-			});
+                        const searchParams = new URLSearchParams({
+                                productId: convertedProduct._id.toString(),
+                                quantity: quantity.toString(),
+                                size: sizeString,
+                                color: selectedColor,
+                        });
 
 			router.push(`/checkout?${searchParams.toString()}`);
 		} catch (error) {
