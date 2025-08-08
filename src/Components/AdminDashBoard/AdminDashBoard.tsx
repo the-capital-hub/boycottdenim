@@ -4,7 +4,7 @@ import Sidebar from "../Sidebar/Sidebar"
 export const AdminDashBoard = () => {
     return (
         
-        <div className="flex min-h screen">
+        <div >
             <Sidebar/>
             
             <div className="bg-white min-h screen p-6">

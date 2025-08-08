@@ -63,7 +63,7 @@ export default function OrderList() {
   const pathname = usePathname();
 
   return (
-    <div className="flex min-h-screen">
+    <div >
       <Sidebar />
       <div className="flex-1 p-6 bg-[#f9f9fb]">
         {/* Top bar with search, notifications, mail, avatar */}

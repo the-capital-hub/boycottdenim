@@ -16,7 +16,7 @@ export default function SellerSection() {
   const requestSellers = dummySellers;
 
   return (
-    <div className="flex min-h-screen">
+    <div >
       {/* Sidebar */}
       <Sidebar />
 
