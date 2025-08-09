@@ -168,9 +168,14 @@ export const SettingsForm = () => {
             </div>
           </div>
         </div>
+
       </div>
     </div>
   );
 };
 
 export default SettingsForm;
+
+    )
+}
+
