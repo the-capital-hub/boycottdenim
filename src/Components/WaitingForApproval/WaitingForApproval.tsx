@@ -91,7 +91,9 @@ export default function OrderList() {
   };
 
   return (
-    <div className="flex flex-col md:flex-row min-h-screen overflow-hidden">
+
+    <div >
+
       <Sidebar />
       <div className="flex-1 px-4 sm:px-6 py-6 bg-[#f9f9fb] overflow-y-auto">
         {/* Topbar */}

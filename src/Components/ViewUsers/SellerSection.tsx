@@ -16,11 +16,12 @@ export default function SellerSection() {
   const requestSellers = dummySellers;
 
   return (
-    <div className="flex flex-col lg:flex-row min-h-screen">
-      {/* Sidebar */}
-      <div className="w-full lg:w-64 border-r">
+
+    <div >
+
+     
         <Sidebar />
-      </div>
+      
 
       {/* Main Content */}
       <main className="flex-1 p-4 sm:p-6 space-y-10 bg-[#f9f9fb]">

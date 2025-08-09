@@ -3,8 +3,16 @@ import Sidebar from "../Sidebar/Sidebar";
 
 export const AdminDashBoard = () => {
     return (
-        <div className="flex flex-col md:flex-row min-h-screen">
-            <Sidebar />
+
+        
+        <div >
+            <Sidebar/>
+            
+            <div className="bg-white min-h screen p-6">
+                
+                {/* Header */}
+               
+
 
             <div className="bg-white p-4 w-full">
                 {/* Sales Details */}

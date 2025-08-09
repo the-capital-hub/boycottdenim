@@ -6,11 +6,11 @@ import { CreditCard, Receipt, Wallet } from "lucide-react";
 
 const Dashboard = () => {
   return (
-    <div className="min-h-screen bg-[#f9f9fb] flex flex-col lg:flex-row font-['Open Sans'] text-[#3e3e3e]">
-      {/* Sidebar */}
-      <div className="w-full lg:w-64 border-r">
-        <Sidebar />
-      </div>
+
+    <div >
+      <Sidebar />
+
+
 
       {/* Main Content */}
       <div className="flex-1 px-4 sm:px-6 lg:px-10 py-6 space-y-10">

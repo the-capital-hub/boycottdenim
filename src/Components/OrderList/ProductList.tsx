@@ -61,7 +61,10 @@ export default function OrderList() {
   const pathname = usePathname();
 
   return (
-    <div className="flex flex-col md:flex-row min-h-screen">
+
+    <div >
+
+
       <Sidebar />
       <div className="flex-1 bg-[#f9f9fb] px-4 sm:px-6 py-6">
         {/* Topbar */}
