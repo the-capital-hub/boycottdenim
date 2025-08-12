@@ -176,6 +176,4 @@ export const SettingsForm = () => {
 
 export default SettingsForm;
 
-    )
-}
 
