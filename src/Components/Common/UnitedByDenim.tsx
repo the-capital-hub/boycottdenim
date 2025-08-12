@@ -55,7 +55,7 @@ const UnitedByDenim = () => {
 	return (
 		<div className="w-full max-w-full overflow-hidden">
 			<div className="text-black py-4 sm:py-6 lg:py-0 my-0 font-bold italic bg-white text-2xl sm:text-4xl md:text-5xl lg:text-[90px] text-center mb-0 pb-0 leading-none px-4">
-				<p className="break-words">100% DENIM BRAND</p>
+				<p className="break-words">Made for India, Made for you!</p>
 			</div>
 			<div className="relative w-full h-[20vh] sm:h-[40vh] overflow-hidden">
 				<div className="absolute w-[160%] h-[3rem] sm:h-[4rem] lg:h-[5rem] bg-[#ffe800] rotate-[8deg] top-[20%] -left-[50%] flex items-center justify-center shadow-lg border-y-[2px] border-[#ffe800]">

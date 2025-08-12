@@ -95,9 +95,7 @@ const ItsAboutBoycottSection = () => {
 								</motion.button>
 							</div>
 							<p className="text-gray-600 text-sm sm:text-base leading-relaxed max-w-xl mt-4">
-								Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-								eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-								enim ad minim veniam, quis nostrud exercitation.
+							At Boy Cott, we’ve made a bold decision – to master one thing and one thing only: Jeans. While the world jumps from trend to trend, we stay rooted in what we believe: Denim is not just a fabric – it’s a Culture, a Statement, a Lifestyle.
 							</p>
 						</motion.div>
 

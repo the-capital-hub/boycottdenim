@@ -115,7 +115,7 @@ const ShopMore = () => {
     <div className={`${ptMono.className} w-full max-w-7xl mx-auto px-4 py-5`} >
         <div className='w-full max-w-5xl mx-auto my-5'>
             <h1 className='text-[64px] text-center text-black'>See all products</h1>
-            <p className='text-[18px] text-gray-700 text-center'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation..</p>
+            <p className='text-[18px] text-gray-700 text-center'>We built Boy Cott for people who know who they are. People who don't need loud logos or fancy hype to stand out. People who believe in quality over quantity, style over noise, and real over fake.</p>
         </div>
       {/* Product Grid */}
       <motion.div 
