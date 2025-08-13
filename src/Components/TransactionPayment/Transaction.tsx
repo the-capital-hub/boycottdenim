@@ -7,7 +7,7 @@ import { CreditCard, Receipt, Wallet } from "lucide-react";
 const Dashboard = () => {
   return (
 
-    <div >
+    <div className="flex min-h-screen flex-col md:flex-row">
       <Sidebar />
 
 
