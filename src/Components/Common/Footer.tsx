@@ -6,6 +6,7 @@ import Qr from "../../../public/Qr-code.jpg";
 import google from "../../../public/playstore.png";
 import apple from "../../../public/appstore.png";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Footer() {
   const [email, setEmail] = useState("");
@@ -154,49 +155,61 @@ export default function Footer() {
 
           {/* Account */}
           <motion.div variants={itemVariants}>
-            <motion.h3 className="text-lg font-semibold mb-4">Account</motion.h3>
-            <ul className="space-y-2 text-sm text-gray-400">
-              {["My Account", "Login / Register", "Cart", "Wishlist", "Shop"].map(
-                (item, index) => (
-                  <motion.li key={item}>
-                    <motion.a
-                      href="#"
-                      variants={linkHoverVariants}
-                      whileHover="hover"
-                      initial={{ opacity: 0, x: -10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: index * 0.1, duration: 0.3 }}
-                      className="block"
-                    >
-                      {item}
-                    </motion.a>
-                  </motion.li>
-                )
-              )}
-            </ul>
-          </motion.div>
+  <motion.h3 className="text-lg font-semibold mb-4">Account</motion.h3>
+  <ul className="space-y-2 text-sm text-gray-400">
+    {[
+      { label: "My Account", href: "/account" },
+      { label: "Login / Register", href: "/Register" },
+      { label: "Cart", href: "/Cart" },
+      { label: "Wishlist", href: "/wishlist" },
+      { label: "Shop", href: "/Shop" }
+    ].map((item, index) => (
+      <motion.li key={item.label}>
+        <Link href={item.href} passHref>
+          <motion.span
+            variants={linkHoverVariants}
+            whileHover="hover"
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: index * 0.1, duration: 0.3 }}
+            className="block cursor-pointer"
+          >
+            {item.label}
+          </motion.span>
+        </Link>
+      </motion.li>
+    ))}
+  </ul>
+</motion.div>
+
 
           {/* Quick Link */}
           <motion.div variants={itemVariants}>
-            <motion.h3 className="text-lg font-semibold mb-4">Quick Link</motion.h3>
-            <ul className="space-y-2 text-sm text-gray-400">
-              {["Privacy Policy", "Terms Of Use", "FAQ", "Contact"].map((item, index) => (
-                <motion.li key={item}>
-                  <motion.a
-                    href="#"
-                    variants={linkHoverVariants}
-                    whileHover="hover"
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.1, duration: 0.3 }}
-                    className="block"
-                  >
-                    {item}
-                  </motion.a>
-                </motion.li>
-              ))}
-            </ul>
-          </motion.div>
+  <motion.h3 className="text-lg font-semibold mb-4">Quick Link</motion.h3>
+  <ul className="space-y-2 text-sm text-gray-400">
+    {[
+      { label: "Privacy Policy", href: "/PrivacyPolicy" },
+      { label: "Terms Of Use", href: "/TermsofUse" },
+      { label: "FAQ", href: "/faq" },
+      { label: "Contact", href: "/contact" }
+    ].map((item, index) => (
+      <motion.li key={item.label}>
+        <motion.a
+          href={item.href}
+          variants={linkHoverVariants}
+          whileHover="hover"
+          initial={{ opacity: 0, x: -10 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: index * 0.1, duration: 0.3 }}
+          className="block"
+        >
+          {item.label}
+        </motion.a>
+      </motion.li>
+    ))}
+  </ul>
+</motion.div>
+
 
           {/* Download App */}
           <motion.div variants={itemVariants}>
