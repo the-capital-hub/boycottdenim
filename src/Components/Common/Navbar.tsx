@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { PT_Mono } from "next/font/google";
 import { Menu, X } from "lucide-react";
-import logo from "../../../public/boycott-logo.png";
+import logo from "../../../public/boycottlogo.png";
 import search from "../../../public/Cart.svg";
 import cart from "../../../public/bag.svg";
 import user from "../../../public/user.svg";

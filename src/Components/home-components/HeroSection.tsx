@@ -86,9 +86,7 @@ const HeroSection = () => {
                 transition={{ delay: 0.8 }}
                 className="text-gray-300 text-sm max-w-md font-mono"
               >
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation.
+                Discover our denim fit pants, crafted for all-day comfort and style. With tailored cuts, durable fabric, and versatile designs, they’re perfect for casual outings or polished everyday looks.
               </motion.p>
             </motion.div>
 
