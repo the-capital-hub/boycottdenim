@@ -92,7 +92,7 @@ export default function OrderList() {
 
   return (
 
-    <div >
+    <div className="flex min-h-screen flex-col md:flex-row">
 
       <Sidebar />
       <div className="flex-1 px-4 sm:px-6 py-6 bg-[#f9f9fb] overflow-y-auto">

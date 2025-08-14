@@ -17,7 +17,7 @@ export default function SellerSection() {
 
   return (
 
-    <div >
+    <div className="flex min-h-screen flex-col md:flex-row">
 
      
         <Sidebar />

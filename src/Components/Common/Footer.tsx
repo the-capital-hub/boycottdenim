@@ -191,7 +191,7 @@ export default function Footer() {
       { label: "Privacy Policy", href: "/PrivacyPolicy" },
       { label: "Terms Of Use", href: "/TermsofUse" },
       { label: "FAQ", href: "/faq" },
-      { label: "Contact", href: "/contact" }
+      { label: "Contact", href: "/ContactUs" }
     ].map((item, index) => (
       <motion.li key={item.label}>
         <motion.a
