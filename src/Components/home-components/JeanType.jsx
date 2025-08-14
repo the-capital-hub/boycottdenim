@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import img from "../../../public/shop1.png";
 import Image from "next/image";
 import { PT_Mono } from "next/font/google";
+import Link from "next/link";
 
 const ptMono = PT_Mono({
 	weight: ["400"],
@@ -20,28 +21,28 @@ const JeanType = () => {
 			name: "ANKLE FIT",
 			count: "(289)",
 			description:
-				"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.",
+				"Ankle fit pants offer a modern, tailored look ending right above the ankle. Perfect for showcasing footwear, they blend comfort, style, and versatility for both casual and semi-formal occasions.",
 		},
 		{
 			id: "SLIM FIT",
 			name: "SLIM FIT",
 			count: "(309)",
 			description:
-				"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.",
+				"Slim fit denim offers a sleek, modern silhouette that tapers through the leg without feeling tight. Designed for versatility, it pairs effortlessly with casual or smart-casual looks.",
 		},
 		{
 			id: "RELAXED FIT",
 			name: "RELAXED FIT",
 			count: "(348)",
 			description:
-				"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.",
+				"Relaxed fit denim delivers all-day comfort with a looser cut through the hips and thighs. Ideal for laid-back styles, it offers effortless movement without compromising on durability.",
 		},
 		{
 			id: "STRAIGHT FIT",
 			name: "STRAIGHT FIT",
 			count: "(261)",
 			description:
-				"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.",
+				"Straight fit denim features a classic cut with equal width from hip to hem. Timeless and versatile, it offers a clean silhouette that suits both casual and semi-formal outfits.",
 		},
 	];
 
@@ -109,6 +110,7 @@ const JeanType = () => {
 											{/* Description - Only show for active type */}
 											<AnimatePresence>
 												{activeType === type.id && type.description && (
+													<Link href={'/Shop'}>
 													<motion.div
 														initial={{ opacity: 0, height: 0 }}
 														animate={{ opacity: 1, height: "auto" }}
@@ -128,6 +130,7 @@ const JeanType = () => {
 														</motion.button>
 														<div className="border border-gray-500 mt-5"></div>
 													</motion.div>
+													</Link>
 												)}
 											</AnimatePresence>
 										</div>
